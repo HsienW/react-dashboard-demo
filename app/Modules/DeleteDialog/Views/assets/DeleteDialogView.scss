@@ -1,0 +1,15 @@
+@import '../../../../Common/Style/Variable';
+
+.delete-dialog {
+  .ant-btn-primary {
+    border-color: $main-color !important;
+    background-color: $main-color !important;
+    &:hover {
+      color: $basis-color !important;
+    }
+  }
+}
+.ant-btn:hover,
+.ant-btn:focus {
+  border-color: $main-color !important;
+}

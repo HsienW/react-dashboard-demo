@@ -1,0 +1,112 @@
+@import './Variable';
+
+.ant-input-search-button {
+  color: $main-color !important;
+  background-color: $basis-color !important;
+  border-color: #d9d9d9 !important;
+}
+
+.ant-btn:hover,
+.ant-btn:focus {
+  color: $main-color !important;
+  border-color: #d9d9d9 !important;
+}
+
+.ant-table table {
+  border-radius: 0 !important;
+}
+
+.ant-table-row > td {
+  text-align: center !important;
+}
+
+.ant-table-thead > tr > th {
+  text-align: center !important;
+  color: $basis-color !important;
+  background-color: $main-color !important;
+}
+
+.ant-table-tbody {
+  margin-top: 1rem;
+  tr:nth-child(odd) {
+    background-color: $main-table-color !important;
+  }
+
+  > tr > td {
+    height: 4rem !important;
+    font-size: 16px;
+    border-bottom: 1px solid $border-color !important;
+  }
+}
+
+.ant-tag {
+  height: 26px !important;
+  cursor: default !important;
+  padding: 0 12px !important;
+  font-size: 16px !important;
+  margin: 0 !important;
+}
+
+.ant-popover-inner-content {
+  padding: 2rem !important;
+}
+
+.edit-region-input {
+  width: 80px !important;
+}
+
+table {
+  border-collapse: separate !important;
+}
+
+thead th:first-of-type {
+  border-top-left-radius: 6px !important;
+  border-bottom-left-radius: 6px !important;
+}
+
+thead th:last-of-type {
+  border-top-right-radius: 6px !important;
+  border-bottom-right-radius: 6px !important;
+}
+
+table tr:first-of-type td {
+  border-top: 8px solid $bg-color !important;
+}
+
+.ant-pagination-prev {
+  border-top-left-radius: 4px !important;
+  border-bottom-left-radius: 4px !important;
+}
+
+.ant-pagination-item,
+.ant-pagination-item-1,
+.ant-pagination-item-link {
+  background-color: $bg-color !important;
+  a {
+    color: $main-color !important;
+  }
+}
+
+.ant-pagination-item-active {
+  background-color: $main-color !important;
+  a {
+    color: $basis-color !important;
+  }
+}
+
+.ant-pagination,
+.ant-table-pagination {
+  display: none !important;
+}
+
+.pagination > .active > a,
+.pagination > .active > a:focus,
+.pagination > .active > a:hover,
+.pagination > .active > span,
+.pagination > .active > span:focus,
+.pagination > .active > span:hover {
+  z-index: 2;
+  color: $basis-color !important;
+  cursor: default;
+  background-color: $main-color;
+}

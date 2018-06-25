@@ -1,0 +1,17 @@
+.tool-bar {
+  width: calc(100% - 320px);
+  height: 5rem;
+  display: inline-flex;
+  justify-content: space-between;
+  padding: 0 2rem;
+  .ant-breadcrumb {
+    width: 70%;
+  }
+  > div {
+    display: flex;
+    align-items: center;
+    .user-name {
+      padding: 0 1rem;
+    }
+  }
+}

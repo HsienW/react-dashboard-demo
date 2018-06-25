@@ -1,0 +1,119 @@
+@import '../../../../Common/Style/Variable';
+@import '../../../../Common/Style/CoverCenter';
+
+@mixin device-id-line($color) {
+  position: absolute;
+  margin: -19px 0 0 -16px;
+  width: 4px;
+  height: 64px;
+  background-color: $color;
+}
+
+.machine-content {
+  width: calc(100% - 320px);
+  height: calc(100% - 70px);
+  background-color: $bg-color;
+}
+
+.content-toolbar {
+  padding: 1rem 2rem;
+  width: 100%;
+  .content-title {
+    font-size: 2rem;
+    color: $main-color;
+    margin-bottom: 1rem;
+  }
+  .content-search {
+    width: 42%;
+  }
+}
+
+.content-tools {
+  display: flex;
+  .add-machine-btn,
+  .advanced-search-btn {
+    cursor: pointer;
+  }
+  .content-tool-item {
+    display: flex;
+    justify-content: space-between;
+    padding-left: 1rem;
+    width: 58%;
+    .btn-title {
+      padding: 0 1rem;
+      font-size: 1.25rem;
+      color: $main-color;
+    }
+  }
+  i {
+    font-size: 1.8rem;
+  }
+}
+
+.content-table {
+  padding: 0 2rem;
+  .table-pagination {
+    width: 100%;
+    display: inline-flex;
+    justify-content: flex-end;
+    .pagination {
+      margin-top: 16px !important;
+      a {
+        color: $main-color;
+        border: 1px solid $border-color;
+        &:active {
+          color: $basis-color;
+          background-color: $main-color;
+        }
+      }
+    }
+  }
+}
+
+.table-item-edit-detail {
+  display: flex;
+  justify-content: flex-end;
+  i {
+    font-size: 2.25rem;
+    cursor: pointer;
+  }
+}
+
+.table-item-edit-setup {
+  display: flex;
+  justify-content: space-between;
+  i {
+    font-size: 2.25rem;
+    cursor: pointer;
+  }
+}
+
+.advanced-search {
+  width: 600px;
+  > div {
+    display: flex;
+    justify-content: flex-end;
+  }
+  .search-type-select {
+    padding: 1rem 0;
+    > span {
+      padding-right: 1.25rem;
+      font-size: 1.25rem;
+    }
+  }
+  .ant-btn {
+    margin-left: 14px;
+  }
+}
+
+.device-id-online {
+  @include device-id-line($online-color);
+}
+
+.device-id-offline {
+  @include device-id-line($offline-color);
+}
+
+.device-id-error {
+  @include device-id-line($error-color);
+}

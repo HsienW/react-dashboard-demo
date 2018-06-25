@@ -1,0 +1,11 @@
+.add-dialog .ant-modal-footer {
+  display: none !important; }
+
+.add-dialog .ant-btn-primary {
+  border-color: #343434 !important;
+  background-color: #343434 !important; }
+
+.add-dialog .ant-btn:hover,
+.add-dialog .ant-btn:focus {
+  color: #FFFFFF !important;
+  border-color: #343434 !important; }

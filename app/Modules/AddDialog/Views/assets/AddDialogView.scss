@@ -1,0 +1,16 @@
+@import '../../../../Common/Style/Variable';
+
+.add-dialog {
+  .ant-modal-footer {
+    display: none !important;
+  }
+  .ant-btn-primary {
+    border-color: $main-color !important;
+    background-color: $main-color !important;
+  }
+  .ant-btn:hover,
+  .ant-btn:focus {
+    color: $basis-color !important;
+    border-color: $main-color !important;
+  }
+}

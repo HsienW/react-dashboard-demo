@@ -1,0 +1,9 @@
+.delete-dialog .ant-btn-primary {
+  border-color: #343434 !important;
+  background-color: #343434 !important; }
+  .delete-dialog .ant-btn-primary:hover {
+    color: #FFFFFF !important; }
+
+.ant-btn:hover,
+.ant-btn:focus {
+  border-color: #343434 !important; }
