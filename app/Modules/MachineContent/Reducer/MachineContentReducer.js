@@ -1,5 +1,5 @@
 import is from 'is_js';
-import * as ContentActions from '../Actions/ContentActions';
+import * as MachineContentActions from '../Actions/MachineContentActions';
 import * as AddDialogActions from '../../AddDialog/Actions/AddDialogActions';
 import * as DetailDialogActions from '../../DetailDialog/Actions/DetailDialogActions';
 import * as DeleteDialogActions from '../../DeleteDialog/Actions/DeleteDialogActions';
@@ -14,9 +14,9 @@ const removeItem = (target) => {
     MachineContentRespond.machineDataItems = data;
 };
 
-const ContentReducer = (state = {actionType: ''}, action) => {
+const MachineContentReducer = (state = {actionType: ''}, action) => {
     switch (action.type) {
-        case ContentActions.GET_MACHINE_DATA_SUCCESS:
+        case MachineContentActions.GET_MACHINE_DATA_SUCCESS:
             MachineContentRespond.machineDataItems = action.payload;
             return {actionType: action.type};
 
@@ -24,11 +24,12 @@ const ContentReducer = (state = {actionType: ''}, action) => {
             removeItem(action.payload);
             return {actionType: action.type};
 
-        case ContentActions.MACHINE_DATA_ITEM_CLICKED:
-        case ContentActions.EDIT_DATA_ITEM_SUCCESS:
+        case MachineContentActions.MACHINE_DATA_ITEM_CLICKED:
+        case MachineContentActions.EDIT_DATA_ITEM_SUCCESS:
         case DetailDialogActions.SHOW_DETAIL_DIALOG:
         case AddDialogActions.ADD_ITEM_SUCCESS:
         case PortalActions.GO_TO_PAGE:
+        case PortalActions.UPDATE_PORTAL:
             return {actionType: action.type};
 
         default:
@@ -36,4 +37,4 @@ const ContentReducer = (state = {actionType: ''}, action) => {
     }
 };
 
-export default ContentReducer;
+export default MachineContentReducer;

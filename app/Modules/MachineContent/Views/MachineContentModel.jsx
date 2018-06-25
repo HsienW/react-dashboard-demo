@@ -9,11 +9,11 @@ import DeleteDialogContainer from '../../DeleteDialog/Containers/DeleteDialogCon
 import MachineContentRespond from '../../../ApiCenter/MachineRespond/MachineContentRespond';
 import WebStorage from '../../../WebStorage/WebStorage';
 import * as WebStorageKeys from '../../../WebStorage/WebStorageKeys';
-import * as ContentActions from '../Actions/ContentActions';
+import * as MachineContentActions from '../Actions/MachineContentActions';
 import * as AddDialogActions from '../../AddDialog/Actions/AddDialogActions';
 import * as DeleteDialogActions from '../../DeleteDialog/Actions/DeleteDialogActions';
-import * as PortalActions from '../../Portal/Actions/PortalActions';
-import './assets/ContentView.css';
+// import * as PortalActions from '../../Portal/Actions/PortalActions';
+import './assets/MachineContentView.css';
 
 const Search = Input.Search;
 const Option = Select.Option;
@@ -24,7 +24,7 @@ const customLabels = {
     next: '>'
 };
 
-export default class ContentView extends React.Component {
+export default class MachineContentModel extends React.Component {
     constructor() {
         super();
         this.state = {
@@ -171,13 +171,13 @@ export default class ContentView extends React.Component {
     }
 
     componentWillMount() {
-        this.props.ContentActionsCreator.getMachineData('MachineContent');
+        this.props.MachineContentActionsCreator.getMachineData('MachineContent');
     }
 
     componentWillReceiveProps(nextProps) {
         switch (nextProps.actionType) {
-            case ContentActions.GET_MACHINE_DATA_SUCCESS:
-            case ContentActions.EDIT_DATA_ITEM_SUCCESS:
+            case MachineContentActions.GET_MACHINE_DATA_SUCCESS:
+            case MachineContentActions.EDIT_DATA_ITEM_SUCCESS:
             case DeleteDialogActions.DELETE_ITEM:
                 this.setState({machineDataItems: MachineContentRespond.machineDataItems});
                 break;
@@ -189,9 +189,9 @@ export default class ContentView extends React.Component {
                 });
                 break;
 
-            case PortalActions.GO_TO_PAGE:
-                this.setState({currentMenuPage: WebStorage.getSessionStorage(WebStorageKeys.CURRENT_MENU_PAGE)});
-                break;
+            // case PortalActions.GO_TO_PAGE:
+            //     this.setState({currentMenuPage: WebStorage.getSessionStorage(WebStorageKeys.CURRENT_MENU_PAGE)});
+            //     break;
 
             default:
                 break;
@@ -289,7 +289,7 @@ export default class ContentView extends React.Component {
 
         switch (confirmType) {
             case 'confirm':
-                this.props.ContentActionsCreator.doEditDataItem(updateObj);
+                this.props.MachineContentActionsCreator.doEditDataItem(updateObj);
                 this.setState({
                     isEditItemId: 0,
                     isItemEdit: false
@@ -346,7 +346,7 @@ export default class ContentView extends React.Component {
 
     render() {
         return (
-            <div className="machine-content">
+            <div>
                 <div className="content-toolbar">
                     <div className="content-title">{this.state.currentMenuPage}</div>
                     <div className="content-tools">
@@ -421,10 +421,10 @@ export default class ContentView extends React.Component {
     }
 }
 
-ContentView.propTypes = {
+MachineContentModel.propTypes = {
     actionType: PropTypes.string.isRequired,
     AddDialogActionsCreator: PropTypes.object.isRequired,
     DetailDialogActionsCreator: PropTypes.object.isRequired,
     DeleteDialogActionsCreator: PropTypes.object.isRequired,
-    ContentActionsCreator: PropTypes.object.isRequired,
+    MachineContentActionsCreator: PropTypes.object.isRequired,
 };

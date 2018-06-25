@@ -28,9 +28,7 @@ class AddForm extends React.Component {
         });
     };
 
-    handleSelectChange = (value) => {
-        console.log(value);
-    };
+    handleSelectChange = () => {};
 
     render() {
         const {getFieldDecorator} = this.props.form;

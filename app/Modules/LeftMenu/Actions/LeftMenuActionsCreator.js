@@ -11,7 +11,6 @@ const getMenu = (requestName) => {
         dispatch(getMenuStart());
         ApiCenter.getLeftMenu(requestName)
             .then((respond) => {
-                console.log(respond);
                 dispatch(getMenuSuccess(respond));
             })
             .catch((error) => {

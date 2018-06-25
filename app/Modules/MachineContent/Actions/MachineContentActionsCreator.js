@@ -1,10 +1,10 @@
 import {createAction} from 'redux-actions';
-import * as ContentActions from './ContentActions';
+import * as MachineContentActions from './MachineContentActions';
 import ApiCenter from '../../../ApiCenter/ApiCenter';
 
-const getMachineDataStart = createAction(ContentActions.GET_MACHINE_DATA_START);
-const getMachineDataSuccess = createAction(ContentActions.GET_MACHINE_DATA_SUCCESS);
-const getMachineDataFailed = createAction(ContentActions.GET_MACHINE_DATA_FAILED);
+const getMachineDataStart = createAction(MachineContentActions.GET_MACHINE_DATA_START);
+const getMachineDataSuccess = createAction(MachineContentActions.GET_MACHINE_DATA_SUCCESS);
+const getMachineDataFailed = createAction(MachineContentActions.GET_MACHINE_DATA_FAILED);
 
 const getMachineData = (requestName) => {
     return (dispatch) => {
@@ -19,9 +19,9 @@ const getMachineData = (requestName) => {
     };
 };
 
-const editDataItemStart = createAction(ContentActions.EDIT_DATA_ITEM_START);
-const editDataItemSuccess = createAction(ContentActions.EDIT_DATA_ITEM_SUCCESS);
-const editDataItemFailed = createAction(ContentActions.EDIT_DATA_ITEM_FAILED);
+const editDataItemStart = createAction(MachineContentActions.EDIT_DATA_ITEM_START);
+const editDataItemSuccess = createAction(MachineContentActions.EDIT_DATA_ITEM_SUCCESS);
+const editDataItemFailed = createAction(MachineContentActions.EDIT_DATA_ITEM_FAILED);
 
 const doEditDataItem = (requestName) => {
     return (dispatch) => {
@@ -36,7 +36,7 @@ const doEditDataItem = (requestName) => {
     };
 };
 
-const menuItemClicked = createAction(ContentActions.MACHINE_DATA_ITEM_CLICKED);
+const menuItemClicked = createAction(MachineContentActions.MACHINE_DATA_ITEM_CLICKED);
 
 export {
     getMachineData,

@@ -45,22 +45,18 @@ export default class LeftMenuView extends React.Component {
 
             subMenuTitle.forEach((obj) => {
                 if (is.equal(currentMenu, obj.childNodes[0].textContent)) {
-                    obj.setAttribute('id', 'enter');
-                    Array.from(obj.childNodes[1].childNodes).forEach((subObj) => {
-                        subObj.setAttribute('id', 'sub-enter');
-                    });
-                    WebStorage.setSessionStorage(WebStorageKeys.SELECT_MENU_TYPE, obj.childNodes[0].textContent);
+                    this.handleClick(obj);
                     return;
                 }
 
                 if (is.include(obj.textContent, currentMenu)) {
-                    obj.setAttribute('id', 'enter');
-                    Array.from(obj.childNodes[1].childNodes).forEach((subObj) => {
-                        subObj.setAttribute('id', 'sub-enter');
-                    });
-                    WebStorage.setSessionStorage(WebStorageKeys.SELECT_MENU_TYPE, obj.childNodes[0].textContent);
-                    WebStorage.setSessionStorage(WebStorageKeys.CURRENT_MENU_PAGE, currentMenu);
-                    this.props.PortalActionsCreator.goToPage();
+                    this.handleClick(obj);
+                    this.props.PortalActionsCreator.goToPage(
+                        {
+                            menuType: obj.childNodes[0].textContent,
+                            subMenu: currentMenu
+                        }
+                    );
                     return;
                 }
                 obj.removeAttribute('id');
@@ -83,6 +79,13 @@ export default class LeftMenuView extends React.Component {
                     subObj.setAttribute('id', 'sub-enter');
                 });
             }
+        });
+    };
+
+    handleClick = (obj) => {
+        obj.setAttribute('id', 'enter');
+        Array.from(obj.childNodes[1].childNodes).forEach((subObj) => {
+            subObj.setAttribute('id', 'sub-enter');
         });
     };
 
