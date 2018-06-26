@@ -20,7 +20,7 @@ export default class MachineContentView extends React.Component {
             default:
                 break;
         }
-}
+    }
 
     getMachineContentModel = () => {
         const sunMenu = WebStorage.getSessionStorage(WebStorageKeys.CURRENT_SUB_MENU);

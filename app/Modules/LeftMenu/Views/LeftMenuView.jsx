@@ -45,29 +45,30 @@ export default class LeftMenuView extends React.Component {
 
             subMenuTitle.forEach((obj) => {
                 if (is.equal(currentMenu, obj.childNodes[0].textContent)) {
-                    this.handleClick(obj);
                     this.props.PortalActionsCreator.goToPage(
                         {
                             menuType: obj.childNodes[0].textContent,
                             subMenu: ''
                         }
                     );
+                    this.handleClick(obj);
                     return;
                 }
 
                 if (is.include(obj.textContent, currentMenu)) {
-                    this.handleClick(obj);
                     this.props.PortalActionsCreator.goToPage(
                         {
                             menuType: obj.childNodes[0].textContent,
                             subMenu: currentMenu
                         }
                     );
+                    this.handleClick(obj);
                     return;
                 }
                 obj.removeAttribute('id');
                 Array.from(obj.childNodes[1].childNodes).forEach((subObj) => {
                     subObj.removeAttribute('id');
+                    subObj.removeAttribute('name');
                 });
             });
         });
@@ -79,22 +80,30 @@ export default class LeftMenuView extends React.Component {
         const initialMenu = WebStorage.getSessionStorage(WebStorageKeys.SELECT_MENU_TYPE);
 
         subMenuTitle.forEach((obj) => {
+            const currentItem = WebStorage.getSessionStorage(WebStorageKeys.CURRENT_SUB_MENU);
             if (is.equal(initialMenu, obj.childNodes[0].textContent)) {
                 obj.setAttribute('id', 'enter');
                 Array.from(obj.childNodes[1].childNodes).forEach((subObj) => {
                     subObj.setAttribute('id', 'sub-enter');
+                    if(is.equal(subObj.textContent, currentItem)) {
+                        subObj.setAttribute('name', 'current-sub-enter');
+                    }
                 });
             }
         });
     };
 
     handleClick = (obj) => {
+        const currentItem = WebStorage.getSessionStorage(WebStorageKeys.CURRENT_SUB_MENU);
         obj.setAttribute('id', 'enter');
         Array.from(obj.childNodes[1].childNodes).forEach((subObj) => {
             subObj.setAttribute('id', 'sub-enter');
+            if(is.equal(subObj.textContent, currentItem)) {
+                subObj.setAttribute('name', 'current-sub-enter');
+                return;
+            }
+            subObj.removeAttribute('name');
         });
-        console.log('wwwwwwwwwwwwwwwwwwwww');
-        console.log(obj.childNodes[1].childNodes);
     };
 
     render() {
@@ -128,6 +137,7 @@ export default class LeftMenuView extends React.Component {
                                                         itemID={subItem.type}
                                                     >
                                                         {subItem.title}
+                                                        <div />
                                                     </li>
                                                 );
                                             })

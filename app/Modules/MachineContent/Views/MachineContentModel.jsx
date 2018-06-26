@@ -12,7 +12,7 @@ import * as WebStorageKeys from '../../../WebStorage/WebStorageKeys';
 import * as MachineContentActions from '../Actions/MachineContentActions';
 import * as AddDialogActions from '../../AddDialog/Actions/AddDialogActions';
 import * as DeleteDialogActions from '../../DeleteDialog/Actions/DeleteDialogActions';
-// import * as PortalActions from '../../Portal/Actions/PortalActions';
+import * as PortalActions from '../../Portal/Actions/PortalActions';
 import './assets/MachineContentView.css';
 
 const Search = Input.Search;
@@ -190,8 +190,12 @@ export default class MachineContentModel extends React.Component {
             case AddDialogActions.ADD_ITEM_SUCCESS:
                 this.setState({
                     machineDataItems: MachineContentRespond.machineDataItems,
+                    currentShowData: MachineContentRespond.machineDataItems,
                     columns: this.state.columns
                 });
+                break;
+
+            case PortalActions.UPDATE_PORTAL:
                 break;
 
             default:
@@ -339,11 +343,11 @@ export default class MachineContentModel extends React.Component {
 
     showAdvancedSearch = () => {
         this.setState({showAdvancedSearch: true});
-        let searchInput = document.querySelector('.content-search-input input');
-        searchInput.value = WebStorage.getSessionStorage(WebStorageKeys.SEARCH_KEY);
     };
 
     hideAdvancedSearch = () => {
+        let searchInput = document.querySelector('.content-search-input input');
+        searchInput.value = WebStorage.getSessionStorage(WebStorageKeys.SEARCH_KEY);
         this.setState({showAdvancedSearch: false});
     };
 
