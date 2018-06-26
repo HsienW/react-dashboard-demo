@@ -1,4 +1,5 @@
 import React from 'react';
+import is from 'is_js';
 import PropTypes from 'prop-types';
 import {Form, Button, Select, Input} from 'antd';
 
@@ -13,22 +14,37 @@ const addFieldData = [
 ];
 
 class AddForm extends React.Component {
-
     handleSubmit = () => {
         this.props.form.validateFields((err, values) => {
+            const form = this.props.form;
+            if (is.not.existy(values.address)
+                || is.not.existy(values.id)
+                || is.not.existy(values.model)
+                || is.not.existy(values.region)
+                || is.not.existy(values.status)
+                || is.not.existy(values.temperature)
+
+            ) {
+                return;
+            }
+
             const requestJson = {
                 address: values.address,
                 id: values.id,
                 model: values.model,
-                region:values.region,
+                region: values.region,
                 status: parseInt(values.status),
                 temperature: values.temperature
             };
             this.props.AddDialogActionsCreator.doAddMachineItem(requestJson);
+            form.resetFields();
         });
     };
 
-    handleSelectChange = () => {};
+    resetForm = () => {
+        const form = this.props.form;
+        form.resetFields();
+    };
 
     render() {
         const {getFieldDecorator} = this.props.form;
@@ -40,11 +56,11 @@ class AddForm extends React.Component {
                             <FormItem
                                 key={formItem.key}
                                 label={formItem.fieldName}
-                                labelCol={{ span: 5 }}
-                                wrapperCol={{ span: 17 }}
+                                labelCol={{span: 5}}
+                                wrapperCol={{span: 17}}
                             >
                                 {getFieldDecorator(formItem.key, {
-                                    rules: [{ required: true, message: 'Please input data' }],
+                                    rules: [{required: true, message: 'Please input data', whitespace: true}],
                                 })(
                                     <Input />
                                 )}
@@ -54,11 +70,11 @@ class AddForm extends React.Component {
                 }
                 <FormItem
                     label="Status"
-                    labelCol={{ span: 5 }}
-                    wrapperCol={{ span: 17 }}
+                    labelCol={{span: 5}}
+                    wrapperCol={{span: 17}}
                 >
                     {getFieldDecorator('status', {
-                        rules: [{ required: true, message: 'Please select status' }],
+                        rules: [{required: true, message: 'Please select status', whitespace: true}],
                     })(
                         <Select
                             placeholder="Select a status"
@@ -71,12 +87,13 @@ class AddForm extends React.Component {
                     )}
                 </FormItem>
                 <FormItem
-                    wrapperCol={{ span: 12, offset: 10 }}
+                    wrapperCol={{span: 12, offset: 10}}
                 >
                     <Button type="primary" htmlType="submit">
                         Confirm
                     </Button>
                 </FormItem>
+                {this.props.dialogState ? null : this.resetForm()}
             </Form>
         );
     }
@@ -86,5 +103,6 @@ export default Form.create()(AddForm);
 
 AddForm.propTypes = {
     form: PropTypes.object.isRequired,
+    dialogState: PropTypes.bool.isRequired,
     AddDialogActionsCreator: PropTypes.object.isRequired
 };

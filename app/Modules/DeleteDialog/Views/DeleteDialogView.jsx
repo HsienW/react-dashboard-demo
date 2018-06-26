@@ -18,6 +18,9 @@ export default class DeleteDialogView extends React.Component {
             case DeleteDialogActions.HIDE_DELETE_DIALOG:
                 this.showDialog();
                 break;
+            case DeleteDialogActions.DELETE_ITEM:
+                this.props.DeleteDialogActionsCreator.updateDialog();
+                break;
 
             default:
                 break;

@@ -33,6 +33,7 @@ export default class MachineContentModel extends React.Component {
             collapse: false,
             showAdvancedSearch: false,
             isItemEdit: false,
+            isAdvancedSearch: false,
             isEditItemId: 0,
             isDetailItemId: 0,
             isDeleteItemId: 0,
@@ -109,7 +110,7 @@ export default class MachineContentModel extends React.Component {
                     key: 'address',
                     render: (record, index) => {
                         if (this.state.isItemEdit && is.equal(index.id, this.state.isEditItemId)) {
-                            return <Input id={index.id} className="edit-address-input"/>;
+                            return <Input id={index.id} className="edit-address-input" value={index.address}/>;
                         }
                         return <span>{index.address}</span>;
                     }
@@ -120,7 +121,7 @@ export default class MachineContentModel extends React.Component {
                     key: 'region',
                     render: (record, index) => {
                         if (this.state.isItemEdit && is.equal(index.id, this.state.isEditItemId)) {
-                            return <Input id={index.id} className="edit-region-input"/>;
+                            return <Input id={index.id} className="edit-region-input" value={index.region}/>;
                         }
                         return <span>{index.region}</span>;
                     }
@@ -178,8 +179,12 @@ export default class MachineContentModel extends React.Component {
         switch (nextProps.actionType) {
             case MachineContentActions.GET_MACHINE_DATA_SUCCESS:
             case MachineContentActions.EDIT_DATA_ITEM_SUCCESS:
+                this.setState({machineDataItems: MachineContentRespond.machineDataItems});
+                break;
+
             case DeleteDialogActions.DELETE_ITEM:
                 this.setState({machineDataItems: MachineContentRespond.machineDataItems});
+                this.props.MachineContentActionsCreator.updateMachineDate();
                 break;
 
             case AddDialogActions.ADD_ITEM_SUCCESS:
@@ -188,10 +193,6 @@ export default class MachineContentModel extends React.Component {
                     columns: this.state.columns
                 });
                 break;
-
-            // case PortalActions.GO_TO_PAGE:
-            //     this.setState({currentMenuPage: WebStorage.getSessionStorage(WebStorageKeys.CURRENT_MENU_PAGE)});
-            //     break;
 
             default:
                 break;
@@ -218,6 +219,7 @@ export default class MachineContentModel extends React.Component {
     advancedSearch = () => {
         let searchKey = document.querySelector('.advanced-search-input').value;
         let temporarilyData = JSON.parse(WebStorage.getSessionStorage(WebStorageKeys.CURRENT_SEARCH_DATA));
+        WebStorage.setSessionStorage(WebStorageKeys.SEARCH_KEY, searchKey);
 
         if (is.empty(searchKey)) {
             this.setState({machineDataItems: MachineContentRespond.machineDataItems});
@@ -234,7 +236,10 @@ export default class MachineContentModel extends React.Component {
         let currentData = temporarilyData.filter((itemObj) => {
             return is.include(itemObj.address, searchKey) || is.include(itemObj.model, searchKey);
         });
-        this.setState({machineDataItems: currentData});
+        this.setState({
+            machineDataItems: currentData,
+            isAdvancedSearch: true
+        });
     };
 
     advancedSearchStatus = (value) => {
@@ -334,6 +339,8 @@ export default class MachineContentModel extends React.Component {
 
     showAdvancedSearch = () => {
         this.setState({showAdvancedSearch: true});
+        let searchInput = document.querySelector('.content-search-input input');
+        searchInput.value = WebStorage.getSessionStorage(WebStorageKeys.SEARCH_KEY);
     };
 
     hideAdvancedSearch = () => {
@@ -352,6 +359,7 @@ export default class MachineContentModel extends React.Component {
                     <div className="content-tools">
                         <div className="content-search">
                             <Search
+                                className="content-search-input"
                                 placeholder="keyword"
                                 enterButton="Search"
                                 size="large"

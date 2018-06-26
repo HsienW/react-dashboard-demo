@@ -1,6 +1,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import MachineContentView from '../Views/MachineContentView';
+import MachineContentModel from '../Views/MachineContentModel';
 import * as MachineContentActionsCreator from '../Actions/MachineContentActionsCreator';
 import * as AddDialogActionsCreator from '../../AddDialog/Actions/AddDialogActionsCreator';
 import * as DetailDialogActionsCreator from '../../DetailDialog/Actions/DetailDialogActionsCreator';
@@ -18,4 +19,4 @@ export default connect(
             DeleteDialogActionsCreator: bindActionCreators(DeleteDialogActionsCreator, dispatch)
         };
     }
-)(MachineContentView);
+)(MachineContentView, MachineContentModel);

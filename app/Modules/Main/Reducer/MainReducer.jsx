@@ -16,6 +16,7 @@ import DetailDialogReducer from '../../DetailDialog/Reducer/DetailDialogReducer'
 const MainReducer = combineReducers({
     PortalReducer,
     LeftMenuReducer,
+    AddDialogReducer,
     NavbarReducer,
     AdvertisingContentReducer,
     DealerContentReducer,
@@ -24,7 +25,6 @@ const MainReducer = combineReducers({
     MerchandiseContentReducer,
     SystemContentReducer,
     MachineContentReducer,
-    AddDialogReducer,
     DeleteDialogReducer,
     DetailDialogReducer
 });

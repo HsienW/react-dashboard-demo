@@ -37,9 +37,11 @@ const doEditDataItem = (requestName) => {
 };
 
 const menuItemClicked = createAction(MachineContentActions.MACHINE_DATA_ITEM_CLICKED);
+const updateMachineDate = createAction(MachineContentActions.UPDATE_MACHINE_DATA);
 
 export {
     getMachineData,
     doEditDataItem,
     menuItemClicked,
+    updateMachineDate
 };

@@ -46,6 +46,12 @@ export default class LeftMenuView extends React.Component {
             subMenuTitle.forEach((obj) => {
                 if (is.equal(currentMenu, obj.childNodes[0].textContent)) {
                     this.handleClick(obj);
+                    this.props.PortalActionsCreator.goToPage(
+                        {
+                            menuType: obj.childNodes[0].textContent,
+                            subMenu: ''
+                        }
+                    );
                     return;
                 }
 
@@ -87,8 +93,9 @@ export default class LeftMenuView extends React.Component {
         Array.from(obj.childNodes[1].childNodes).forEach((subObj) => {
             subObj.setAttribute('id', 'sub-enter');
         });
+        console.log('wwwwwwwwwwwwwwwwwwwww');
+        console.log(obj.childNodes[1].childNodes);
     };
-
 
     render() {
         return (

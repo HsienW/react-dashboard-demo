@@ -20,14 +20,18 @@ const MachineContentReducer = (state = {actionType: ''}, action) => {
             MachineContentRespond.machineDataItems = action.payload;
             return {actionType: action.type};
 
+        case AddDialogActions.ADD_ITEM_SUCCESS:
+            MachineContentRespond.machineDataItems = action.payload;
+            return {actionType: action.type};
+
         case DeleteDialogActions.DELETE_ITEM:
             removeItem(action.payload);
             return {actionType: action.type};
 
         case MachineContentActions.MACHINE_DATA_ITEM_CLICKED:
         case MachineContentActions.EDIT_DATA_ITEM_SUCCESS:
+        case MachineContentActions.UPDATE_MACHINE_DATA:
         case DetailDialogActions.SHOW_DETAIL_DIALOG:
-        case AddDialogActions.ADD_ITEM_SUCCESS:
         case PortalActions.GO_TO_PAGE:
         case PortalActions.UPDATE_PORTAL:
             return {actionType: action.type};

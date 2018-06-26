@@ -187,6 +187,7 @@ const getDataApi = (requestName) => {
 
 const addMachineDataApi = (request) => {
     MachineData.unshift(request);
+    return MachineData;
 };
 
 const editMachineItemApi = (request) => {

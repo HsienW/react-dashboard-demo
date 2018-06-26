@@ -47,7 +47,10 @@ export default class AddDialogView extends React.Component {
                     onCancel={this.hideDialog}
                     className="add-dialog"
                 >
-                    <AddForm AddDialogActionsCreator={this.props.AddDialogActionsCreator}/>
+                    <AddForm
+                        dialogState={this.state.showDialog}
+                        AddDialogActionsCreator={this.props.AddDialogActionsCreator}
+                    />
                 </Modal>
             </div>
         );
