@@ -109,7 +109,7 @@ export default class MachineContentModel extends React.Component {
                     key: 'address',
                     render: (record, index) => {
                         if (this.state.isItemEdit && is.equal(index.id, this.state.isEditItemId)) {
-                            return <Input id={index.id} className="edit-address-input" value={index.address}/>;
+                            return <Input id={index.id} className="edit-address-input" defaultValue={index.address}/>;
                         }
                         return <span>{index.address}</span>;
                     }
@@ -120,7 +120,7 @@ export default class MachineContentModel extends React.Component {
                     key: 'region',
                     render: (record, index) => {
                         if (this.state.isItemEdit && is.equal(index.id, this.state.isEditItemId)) {
-                            return <Input id={index.id} className="edit-region-input" value={index.region}/>;
+                            return <Input id={index.id} className="edit-region-input" defaultValue={index.region}/>;
                         }
                         return <span>{index.region}</span>;
                     }
@@ -207,7 +207,16 @@ export default class MachineContentModel extends React.Component {
         document.querySelector('.advanced-search-btn').addEventListener('click', this.showAdvancedSearch);
     }
 
+    test = () => {
+        console.log('qqqqq');
+        // let searchAdInput = document.querySelector('.advanced-search-input');
+        // searchAdInput.value = WebStorage.getSessionStorage(WebStorageKeys.SEARCH_KEY);
+    };
+
     handleSearch = (value) => {
+        let setSearchKey = document.querySelector('.advanced-search-input').value;
+        WebStorage.setSessionStorage(WebStorageKeys.SEARCH_KEY, setSearchKey);
+
         const searchKey = value.toUpperCase();
         if (is.empty(value) || is.falsy(value)) {
             this.setState({machineDataItems: MachineContentRespond.machineDataItems});
@@ -224,7 +233,7 @@ export default class MachineContentModel extends React.Component {
         let temporarilyData = JSON.parse(WebStorage.getSessionStorage(WebStorageKeys.CURRENT_SEARCH_DATA));
         WebStorage.setSessionStorage(WebStorageKeys.SEARCH_KEY, searchKey);
 
-        if (is.empty(searchKey)) {
+        if (is.empty(searchKey) && is.empty(temporarilyData)) {
             this.setState({machineDataItems: MachineContentRespond.machineDataItems});
             return;
         }
@@ -342,12 +351,13 @@ export default class MachineContentModel extends React.Component {
 
     showAdvancedSearch = () => {
         this.setState({showAdvancedSearch: true});
+        // this.test();
     };
 
     hideAdvancedSearch = () => {
+        this.setState({showAdvancedSearch: false});
         let searchInput = document.querySelector('.content-search-input input');
         searchInput.value = WebStorage.getSessionStorage(WebStorageKeys.SEARCH_KEY);
-        this.setState({showAdvancedSearch: false});
     };
 
     onChangePage = (showData) => {
@@ -381,7 +391,7 @@ export default class MachineContentModel extends React.Component {
                                             <div className="search-type-select">
                                                 <span>Packaging Type</span>
                                                 <Select
-                                                    defaultValue="All" style={{width: 460}}
+                                                    defaultValue="All" style={{width: 430}}
                                                     onChange={this.advancedSearchStatus}
                                                 >
                                                     <Option value="4">All</Option>
