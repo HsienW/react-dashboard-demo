@@ -9,7 +9,7 @@
     "build-css": "node-sass-chokidar app/Modules -o app/Modules",
     "watch-css": "npm run build-css && node-sass-chokidar app/Modules -o app/Modules --watch --recursive",
     "build": "webpack -p --config webpack.prod.config.js",
-    "dev": "concurrently --kill-others \"npm run watch-css\" webpack-dev-server --devtool eval --progress --colors --content-base build --history-api-fallback",
+    "dev": "webpack-dev-server --devtool eval --progress --colors --content-base build --history-api-fallback",
     "prd": "webpack -p"
   },
   "author": "Hsien.W.Wei",
@@ -37,13 +37,13 @@
     "style-loader": "^0.19.1",
     "url-loader": "^0.6.2",
     "webpack": "^3.10.0",
+    "webpack-cli": "^3.0.8",
     "webpack-dev-server": "^2.9.7"
   },
   "dependencies": {
     "@material-ui/core": "^1.2.1",
     "antd": "^3.6.3",
     "babel-polyfill": "^6.26.0",
-    "bootstrap": "^4.1.1",
     "clean-webpack-plugin": "^0.1.19",
     "code-point-at": "^1.1.0",
     "extract-text-webpack-plugin": "^3.0.2",
@@ -52,7 +52,7 @@
     "is-fullwidth-code-point": "^2.0.0",
     "is-utf8": "^0.2.1",
     "is_js": "^0.9.0",
-    "jw-react-pagination": "^1.0.7",
+    "jw-paginate": "^1.0.2",
     "prop-types": "^15.6.0",
     "rc-menu": "^7.1.0",
     "react": "^16.2.0",

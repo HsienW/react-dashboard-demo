@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Modal} from 'antd';
 import * as DeleteDialogActions from '../Actions/DeleteDialogActions';
-import './assets/DeleteDialogView.css';
+import './assets/DeleteDialogView.scss';
 
 export default class DeleteDialogView extends React.Component {
     constructor() {
@@ -17,6 +17,9 @@ export default class DeleteDialogView extends React.Component {
             case DeleteDialogActions.SHOW_DELETE_DIALOG:
             case DeleteDialogActions.HIDE_DELETE_DIALOG:
                 this.showDialog();
+                break;
+            case DeleteDialogActions.DELETE_ITEM:
+                this.props.DeleteDialogActionsCreator.updateDialog();
                 break;
 
             default:

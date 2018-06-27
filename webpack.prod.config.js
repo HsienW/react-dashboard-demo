@@ -6,6 +6,7 @@ const StyleExtHtmlWebpackPlugin = require('style-ext-html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
+    mode: 'production',
     entry: './app/App.jsx',
     output: {
         path: path.resolve(__dirname, 'dist'),
@@ -51,7 +52,7 @@ module.exports = {
             dry: false
         }),
         new HtmlWebpackPlugin({
-            title: 'React W.Music',
+            title: 'React-demo',
             template: './app/index.html',
             filename: 'index.html',
             minify: {

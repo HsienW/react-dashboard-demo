@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import AddForm from './AddForm';
 import {Modal} from 'antd';
 import * as AddDialogActions from '../Actions/AddDialogActions';
-import './assets/AddDialogView.css';
+import './assets/AddDialogView.scss';
 
 export default class AddDialogView extends React.Component {
     constructor() {
@@ -47,7 +47,10 @@ export default class AddDialogView extends React.Component {
                     onCancel={this.hideDialog}
                     className="add-dialog"
                 >
-                    <AddForm AddDialogActionsCreator={this.props.AddDialogActionsCreator}/>
+                    <AddForm
+                        dialogState={this.state.showDialog}
+                        AddDialogActionsCreator={this.props.AddDialogActionsCreator}
+                    />
                 </Modal>
             </div>
         );

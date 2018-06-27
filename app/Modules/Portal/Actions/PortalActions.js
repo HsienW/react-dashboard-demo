@@ -1,7 +1,9 @@
 const GO_TO_PAGE = 'GO_TO_PAGE';
 const STOP_PORTAL = 'STOP_PORTAL';
+const UPDATE_PORTAL = 'UPDATE_PORTAL';
 
 export {
     GO_TO_PAGE,
-    STOP_PORTAL
+    STOP_PORTAL,
+    UPDATE_PORTAL
 };
