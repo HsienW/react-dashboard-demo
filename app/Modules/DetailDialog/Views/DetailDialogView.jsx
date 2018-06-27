@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {Modal, List} from 'antd';
 import * as DetailDialogActions from '../Actions/DetailDialogActions';
 import MachineContentRespond from '../../../ApiCenter/MachineRespond/MachineContentRespond';
-import './assets/DetailDialogView.css';
+import './assets/DetailDialogView.scss';
 
 export default class DetailDialogView extends React.Component {
     constructor() {

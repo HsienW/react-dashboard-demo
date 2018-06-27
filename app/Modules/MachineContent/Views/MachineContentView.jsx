@@ -4,8 +4,8 @@ import WebStorage from '../../../WebStorage/WebStorage';
 import * as WebStorageKeys from '../../../WebStorage/WebStorageKeys';
 import MachineContentModel from './MachineContentModel';
 import MachineContentShow from './MachineContentShow';
-import './assets/MachineContentView.css';
 import * as PortalActions from '../../Portal/Actions/PortalActions';
+import './assets/MachineContentView.scss';
 
 export default class MachineContentView extends React.Component {
     constructor() {

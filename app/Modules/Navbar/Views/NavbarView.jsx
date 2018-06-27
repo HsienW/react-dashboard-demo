@@ -4,7 +4,7 @@ import {Avatar, Breadcrumb} from 'antd';
 import WebStorage from '../../../WebStorage/WebStorage';
 import * as WebStorageKeys from '../../../WebStorage/WebStorageKeys';
 import * as PortalActions from '../../Portal/Actions/PortalActions';
-import './assets/NavbarView.css';
+import './assets/NavbarView.scss';
 
 export default class NavbarView extends React.Component {
     constructor() {

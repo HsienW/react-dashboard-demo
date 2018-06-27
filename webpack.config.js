@@ -26,15 +26,14 @@ module.exports = {
                 use: 'eslint-loader'
             },
             {
-                test: /\.(css|sass)?$/,
+                test: /\.(css|sass|scss)?$/,
                 use: ExtractTextPlugin.extract({
                     use: ['css-loader', 'sass-loader']
                 })
             },
             {
                 test: /\.(png|jpg|gif|svg)$/,
-                include: [path.resolve('app')],
-                exclude: [path.resolve('node_modules')],
+                exclude: [path.resolve('node_modules'), path.resolve('app')],
                 use: 'url-loader?limit=8192'
             },
         ]
@@ -50,7 +49,7 @@ module.exports = {
             dry: false
         }),
         new HtmlWebpackPlugin({
-            title: 'React W.Music',
+            title: 'React-demo',
             template: './app/index.html',
             filename: 'index.html',
             minify: {

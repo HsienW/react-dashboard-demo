@@ -2,7 +2,7 @@ import React from 'react';
 import is from 'is_js';
 import PropTypes from 'prop-types';
 import {Input, Button, Popover, Table, Icon, Tag, Select} from 'antd';
-import JwPagination from 'jw-react-pagination';
+import JwPagination from '../../../Common/Plugin/jw-react-pagination';
 import AddDialogContainer from '../../AddDialog/Containers/AddDialogContainer';
 import DetailDialogContainer from '../../DetailDialog/Containers/DetailDialogContainer';
 import DeleteDialogContainer from '../../DeleteDialog/Containers/DeleteDialogContainer';
@@ -13,7 +13,6 @@ import * as MachineContentActions from '../Actions/MachineContentActions';
 import * as AddDialogActions from '../../AddDialog/Actions/AddDialogActions';
 import * as DeleteDialogActions from '../../DeleteDialog/Actions/DeleteDialogActions';
 import * as PortalActions from '../../Portal/Actions/PortalActions';
-import './assets/MachineContentView.css';
 
 const Search = Input.Search;
 const Option = Select.Option;

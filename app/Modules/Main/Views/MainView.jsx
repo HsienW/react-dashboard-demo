@@ -1,5 +1,5 @@
 import React from 'react';
-import './assets/MainView.css';
+import './assets/MainView.scss';
 
 const MainView = () => {
     return (

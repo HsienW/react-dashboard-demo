@@ -6,7 +6,7 @@ import LeftMenuRespond from '../../../ApiCenter/MachineRespond/LeftMenuRespond';
 import WebStorage from '../../../WebStorage/WebStorage';
 import * as WebStorageKeys from '../../../WebStorage/WebStorageKeys';
 import * as LeftMenuActions from '../Actions/LeftMenuActions';
-import './assets/LeftMenuView.css';
+import './assets/LeftMenuView.scss';
 
 export default class LeftMenuView extends React.Component {
     constructor() {
