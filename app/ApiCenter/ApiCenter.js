@@ -190,6 +190,12 @@ const addMachineDataApi = (request) => {
     return MachineData;
 };
 
+const deleteMachineDataApi = (request) => {
+    const deleteIndex = MachineData.findIndex((item) => {return is.equal(item.id, request);});
+    MachineData.splice(deleteIndex, 1);
+    return MachineData;
+};
+
 const editMachineItemApi = (request) => {
     MachineData.map((item) => {
         if(is.equal(item.id, request.id)) {
@@ -210,6 +216,10 @@ export default class ApiCenter {
 
     static addMachineItem(request) {
         return Promise.resolve(addMachineDataApi(request));
+    }
+
+    static deleteMachineItem(request) {
+        return Promise.resolve(deleteMachineDataApi(request));
     }
 
     static editMachineItem(request) {

@@ -30,7 +30,7 @@ class AddForm extends React.Component {
 
             const requestJson = {
                 address: values.address,
-                id: values.id,
+                id: parseInt(values.id),
                 model: values.model,
                 region: values.region,
                 status: parseInt(values.status),

@@ -181,17 +181,13 @@ export default class MachineContentModel extends React.Component {
                 this.setState({machineDataItems: MachineContentRespond.machineDataItems});
                 break;
 
-            case DeleteDialogActions.DELETE_ITEM:
-                this.setState({machineDataItems: MachineContentRespond.machineDataItems});
+            case DeleteDialogActions.DELETE_ITEM_SUCCESS:
+                this.updateDateItems();
                 this.props.MachineContentActionsCreator.updateMachineDate();
                 break;
 
             case AddDialogActions.ADD_ITEM_SUCCESS:
-                this.setState({
-                    machineDataItems: MachineContentRespond.machineDataItems,
-                    currentShowData: MachineContentRespond.machineDataItems,
-                    columns: this.state.columns
-                });
+                this.updateDateItems();
                 break;
 
             case PortalActions.UPDATE_PORTAL:
@@ -207,15 +203,16 @@ export default class MachineContentModel extends React.Component {
         document.querySelector('.advanced-search-btn').addEventListener('click', this.showAdvancedSearch);
     }
 
-    test = () => {
-        console.log('qqqqq');
-        // let searchAdInput = document.querySelector('.advanced-search-input');
-        // searchAdInput.value = WebStorage.getSessionStorage(WebStorageKeys.SEARCH_KEY);
+    updateDateItems = () => {
+        this.setState({
+            machineDataItems: MachineContentRespond.machineDataItems,
+            currentShowData: MachineContentRespond.machineDataItems,
+        });
     };
 
     handleSearch = (value) => {
-        let setSearchKey = document.querySelector('.advanced-search-input').value;
-        WebStorage.setSessionStorage(WebStorageKeys.SEARCH_KEY, setSearchKey);
+        // let setSearchKey = document.querySelector('.advanced-search-input').value;
+        // WebStorage.setSessionStorage(WebStorageKeys.SEARCH_KEY, setSearchKey);
 
         const searchKey = value.toUpperCase();
         if (is.empty(value) || is.falsy(value)) {
@@ -351,7 +348,6 @@ export default class MachineContentModel extends React.Component {
 
     showAdvancedSearch = () => {
         this.setState({showAdvancedSearch: true});
-        // this.test();
     };
 
     hideAdvancedSearch = () => {
