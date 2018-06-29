@@ -115,3 +115,13 @@ input:-webkit-autofill {
   -webkit-box-shadow: 0 0 0px 1000px white inset !important;
   border: 1px solid #CCC !important;
 }
+
+.has-error .ant-input,
+.has-error .ant-input:hover,
+.has-error .ant-select-selection {
+  border-color: #d9d9d9 !important;
+}
+
+.has-error .ant-select-arrow {
+  color: #d9d9d9 !important;
+}

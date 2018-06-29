@@ -2,9 +2,9 @@ import React from 'react';
 import is from 'is_js';
 import PropTypes from 'prop-types';
 import {Input, Button, Popover, Table, Icon, Tag, Select} from 'antd';
-import JwPagination from '../../../Common/Plugin/jw-react-pagination';
 import AddDialogContainer from '../../AddDialog/Containers/AddDialogContainer';
 import DetailDialogContainer from '../../DetailDialog/Containers/DetailDialogContainer';
+import PaginationContainer from '../../Pagination/Containers/PaginationContainer';
 import DeleteDialogContainer from '../../DeleteDialog/Containers/DeleteDialogContainer';
 import MachineContentRespond from '../../../ApiCenter/MachineRespond/MachineContentRespond';
 import WebStorage from '../../../WebStorage/WebStorage';
@@ -36,7 +36,9 @@ export default class MachineContentModel extends React.Component {
             isEditItemId: 0,
             isDetailItemId: 0,
             isDeleteItemId: 0,
+            defaultSelect: '4',
             currentMenuPage: 'Machine List3',
+            advancedDefaultValue: '',
             columns: [
                 {
                     title: 'Device ID',
@@ -172,6 +174,8 @@ export default class MachineContentModel extends React.Component {
 
     componentWillMount() {
         this.props.MachineContentActionsCreator.getMachineData('MachineContent');
+        WebStorage.setSessionStorage(WebStorageKeys.SEARCH_KEY, '');
+        WebStorage.setSessionStorage(WebStorageKeys.SEARCH_STATUS, '');
     }
 
     componentWillReceiveProps(nextProps) {
@@ -187,10 +191,14 @@ export default class MachineContentModel extends React.Component {
                 break;
 
             case AddDialogActions.ADD_ITEM_SUCCESS:
-                this.updateDateItems();
+                this.updateDateItemsAdd();
                 break;
 
             case PortalActions.UPDATE_PORTAL:
+                break;
+
+            case AddDialogActions.UPDATE_DIALOG:
+                this.setState({isUpdatePagination: false});
                 break;
 
             default:
@@ -204,64 +212,93 @@ export default class MachineContentModel extends React.Component {
     }
 
     updateDateItems = () => {
+        const startIndex = WebStorage.getSessionStorage(WebStorageKeys.PAGE_START_INDEX);
+        const endIndex = WebStorage.getSessionStorage(WebStorageKeys.PAGE_END_INDEX);
+        const currentData = MachineContentRespond.machineDataItems.slice(startIndex, endIndex);
+
         this.setState({
             machineDataItems: MachineContentRespond.machineDataItems,
-            currentShowData: MachineContentRespond.machineDataItems,
+            currentShowData: currentData,
         });
     };
 
-    handleSearch = (value) => {
-        // let setSearchKey = document.querySelector('.advanced-search-input').value;
-        // WebStorage.setSessionStorage(WebStorageKeys.SEARCH_KEY, setSearchKey);
-
-        const searchKey = value.toUpperCase();
-        if (is.empty(value) || is.falsy(value)) {
-            this.setState({machineDataItems: MachineContentRespond.machineDataItems});
-            return;
-        }
-        let searchData = MachineContentRespond.machineDataItems.filter((itemObj) => {
-            return is.include(itemObj.address, searchKey) || is.include(itemObj.model, searchKey);
+    updateDateItemsAdd = () => {
+        WebStorage.setSessionStorage(WebStorageKeys.CURRENT_PAGE, 1);
+        WebStorage.setSessionStorage(WebStorageKeys.PAGE_START_INDEX, 0);
+        WebStorage.setSessionStorage(WebStorageKeys.PAGE_END_INDEX, 9);
+        const currentData = MachineContentRespond.machineDataItems.slice(0, 9);
+        this.setState({
+            machineDataItems: MachineContentRespond.machineDataItems,
+            currentShowData: currentData,
         });
+    };
+
+    generalSearch = (value) => {
+        WebStorage.setSessionStorage(WebStorageKeys.SEARCH_KEY, value);
+        WebStorage.setSessionStorage(WebStorageKeys.SEARCH_STATUS, '');
+        const searchState = WebStorage.getSessionStorage(WebStorageKeys.SEARCH_STATUS);
+        const searchData = this.doFilterKey(value, searchState, MachineContentRespond.machineDataItems);
         this.setState({machineDataItems: searchData});
     };
 
     advancedSearch = () => {
-        let searchKey = document.querySelector('.advanced-search-input').value;
-        let temporarilyData = JSON.parse(WebStorage.getSessionStorage(WebStorageKeys.CURRENT_SEARCH_DATA));
-        WebStorage.setSessionStorage(WebStorageKeys.SEARCH_KEY, searchKey);
+        const searchKey = document.querySelector('.advanced-search-input').value;
+        const searchState = parseInt(WebStorage.getSessionStorage(WebStorageKeys.SEARCH_STATUS));
 
-        if (is.empty(searchKey) && is.empty(temporarilyData)) {
-            this.setState({machineDataItems: MachineContentRespond.machineDataItems});
-            return;
-        }
-        if (is.empty(temporarilyData) || is.falsy(temporarilyData)) {
-            let currentData = MachineContentRespond.machineDataItems.filter((itemObj) => {
-                return is.include(itemObj.address, searchKey) || is.include(itemObj.model, searchKey);
-            });
-            this.setState({machineDataItems: currentData});
-            return;
-        }
+        const keyFilterDone = this.doFilterKey(searchKey, searchState, MachineContentRespond.machineDataItems);
+        const searchDone = this.doFilterStatus(searchState, keyFilterDone);
 
-        let currentData = temporarilyData.filter((itemObj) => {
-            return is.include(itemObj.address, searchKey) || is.include(itemObj.model, searchKey);
-        });
-        this.setState({
-            machineDataItems: currentData,
-            isAdvancedSearch: true
+        this.setState({machineDataItems: searchDone});
+    };
+
+    doFilterKey = (value, searchState, data) => {
+        WebStorage.setSessionStorage(WebStorageKeys.SEARCH_KEY, value);
+        const searchKey = value.toUpperCase();
+        if (is.empty(searchKey) && is.equal(searchState, 4)
+            || is.empty(searchKey) && is.nan(searchState)
+            || is.empty(searchKey) && is.empty(searchState)
+        ) {
+            WebStorage.setSessionStorage(WebStorageKeys.SEARCH_KEY, '');
+            WebStorage.setSessionStorage(WebStorageKeys.SEARCH_STATUS, '');
+            this.setSearchStatus(searchState);
+            return data;
+        }
+        return data.filter((item) => {
+            return is.include(item.address, searchKey) || is.include(item.model, searchKey);
         });
     };
 
-    advancedSearchStatus = (value) => {
-        if (parseInt(value) === 4) {
-            WebStorage.setSessionStorage(
-                WebStorageKeys.CURRENT_SEARCH_DATA, JSON.stringify(MachineContentRespond.machineDataItems)
-            );
-            return;
+    doFilterStatus = (status, data) => {
+        if(status === 4 || is.nan(status)) {
+            return data;
         }
-        const searchTemporaryData = MachineContentRespond.machineDataItems.filter((itemObj) => {
-            return is.equal(itemObj.status, parseInt(value));
-        });
-        WebStorage.setSessionStorage(WebStorageKeys.CURRENT_SEARCH_DATA, JSON.stringify(searchTemporaryData));
+        if (is.not.empty(status)) {
+            return data.filter((item) => {
+                return is.equal(item.status, status);
+            });
+        }
+        return data;
+    };
+
+    setSearchStatus = (value) => {
+        switch (value) {
+            case '0':
+                this.setState({defaultSelect:  '0'});
+                break;
+
+            case '1':
+                this.setState({defaultSelect:  '1'});
+                break;
+
+            case '2':
+                this.setState({defaultSelect:  '2'});
+                break;
+
+            default:
+                this.setState({defaultSelect:  '4'});
+                break;
+        }
+        WebStorage.setSessionStorage(WebStorageKeys.SEARCH_STATUS, value);
     };
 
     itemEditClick = (target, editType) => {
@@ -347,13 +384,26 @@ export default class MachineContentModel extends React.Component {
     };
 
     showAdvancedSearch = () => {
-        this.setState({showAdvancedSearch: true});
+        const searchKey = WebStorage.getSessionStorage(WebStorageKeys.SEARCH_KEY);
+        this.setState({
+            advancedDefaultValue: searchKey,
+            showAdvancedSearch: true,
+        });
     };
 
     hideAdvancedSearch = () => {
-        this.setState({showAdvancedSearch: false});
         let searchInput = document.querySelector('.content-search-input input');
         searchInput.value = WebStorage.getSessionStorage(WebStorageKeys.SEARCH_KEY);
+
+        this.setState({
+            advancedDefaultValue: '',
+            showAdvancedSearch: false
+        });
+    };
+
+    searchKeyChange = (event) => {
+        const searchKey = event.target.value;
+        this.setState({advancedDefaultValue: searchKey});
     };
 
     onChangePage = (showData) => {
@@ -372,7 +422,8 @@ export default class MachineContentModel extends React.Component {
                                 placeholder="keyword"
                                 enterButton="Search"
                                 size="large"
-                                onSearch={value => this.handleSearch(value)}
+                                onChange={this.searchKeyChange}
+                                onSearch={value => this.generalSearch(value)}
                             />
                         </div>
                         <div className="content-tool-item">
@@ -383,12 +434,18 @@ export default class MachineContentModel extends React.Component {
                                 content={
                                     (
                                         <div className="advanced-search">
-                                            <Input placeholder="keyword" className="advanced-search-input"/>
+                                            <Input
+                                                placeholder="keyword"
+                                                className="advanced-search-input"
+                                                onChange={this.searchKeyChange}
+                                                value={this.state.advancedDefaultValue}
+                                            />
                                             <div className="search-type-select">
                                                 <span>Packaging Type</span>
                                                 <Select
-                                                    defaultValue="All" style={{width: 430}}
-                                                    onChange={this.advancedSearchStatus}
+                                                    value={this.state.defaultSelect}
+                                                    style={{width: 430}}
+                                                    onChange={this.setSearchStatus}
                                                 >
                                                     <Option value="4">All</Option>
                                                     <Option value="0">Online</Option>
@@ -423,7 +480,7 @@ export default class MachineContentModel extends React.Component {
                         dataSource={this.state.currentShowData}
                     />
                     <div className="table-pagination">
-                        <JwPagination
+                        <PaginationContainer
                             items={this.state.machineDataItems}
                             onChangePage={this.onChangePage}
                             labels={customLabels}

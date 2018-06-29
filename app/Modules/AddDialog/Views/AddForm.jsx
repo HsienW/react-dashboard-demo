@@ -1,5 +1,4 @@
 import React from 'react';
-import is from 'is_js';
 import PropTypes from 'prop-types';
 import {Form, Button, Select, Input} from 'antd';
 
@@ -14,21 +13,16 @@ const addFieldData = [
 ];
 
 class AddForm extends React.Component {
-    handleSubmit = () => {
-        this.props.form.validateFields((err, values) => {
-            const form = this.props.form;
-            if (is.not.existy(values.address)
-                || is.not.existy(values.id)
-                || is.not.existy(values.model)
-                || is.not.existy(values.region)
-                || is.not.existy(values.status)
-                || is.not.existy(values.temperature)
 
-            ) {
+    handleSubmit = () => {
+        const form = this.props.form;
+
+        form.validateFields((err, values) => {
+            if (err) {
+                values = this.resetValues(values);
                 return;
             }
-
-            const requestJson = {
+            let requestJson = {
                 address: values.address,
                 id: parseInt(values.id),
                 model: values.model,
@@ -37,8 +31,16 @@ class AddForm extends React.Component {
                 temperature: values.temperature
             };
             this.props.AddDialogActionsCreator.doAddMachineItem(requestJson);
-            form.resetFields();
+            values = this.resetValues(values);
+            this.resetForm();
         });
+    };
+
+    resetValues = (values) => {
+        Object.keys(values).forEach((key) => {
+            values[key] = undefined;
+        });
+        return values;
     };
 
     resetForm = () => {
@@ -62,7 +64,7 @@ class AddForm extends React.Component {
                                 {getFieldDecorator(formItem.key, {
                                     rules: [{required: true, message: 'Please input data', whitespace: true}],
                                 })(
-                                    <Input />
+                                    <Input/>
                                 )}
                             </FormItem>
                         );

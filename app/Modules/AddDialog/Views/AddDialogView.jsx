@@ -22,6 +22,10 @@ export default class AddDialogView extends React.Component {
 
             case AddDialogActions.ADD_ITEM_SUCCESS:
                 this.hideDialog();
+                this.props.AddDialogActionsCreator.updateDialog();
+                break;
+
+            case AddDialogActions.UPDATE_DIALOG:
                 break;
 
             default:

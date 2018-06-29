@@ -32,67 +32,28 @@ const controlPage = () => {
     const menuType = WebStorage.getSessionStorage(WebStorageKeys.SELECT_MENU_TYPE);
     switch (menuType) {
         case 'Machine Management':
-            return (
-                <div style={MainStyle}>
-                    <LeftMenuContainer/>
-                    <NavbarContainer/>
-                    <MachineContentContainer/>
-                </div>
-            );
+            return (<MachineContentContainer/>);
 
         case 'User Management':
-            return (
-                <div style={MainStyle}>
-                    <LeftMenuContainer/>
-                    <NavbarContainer/>
-                    <UserContentContainer/>
-                </div>
-            );
+            return (<UserContentContainer/>);
+
         case 'Dealer Management':
-            return (
-                <div style={MainStyle}>
-                    <LeftMenuContainer/>
-                    <NavbarContainer/>
-                    <DealerContentContainer/>
-                </div>
-            );
+            return (<DealerContentContainer/>);
+
         case 'Merchandise Management':
-            return (
-                <div style={MainStyle}>
-                    <LeftMenuContainer/>
-                    <NavbarContainer/>
-                    <MerchandiseContentContainer/>
-                </div>
-            );
+            return (<MerchandiseContentContainer/>);
+
         case 'Advertising Management':
-            return (
-                <div style={MainStyle}>
-                    <LeftMenuContainer/>
-                    <NavbarContainer/>
-                    <AdvertisingContentContainer/>
-                </div>
-            );
+            return (<AdvertisingContentContainer/>);
+
         case 'Market Analysis':
-            return (
-                <div style={MainStyle}>
-                    <LeftMenuContainer/>
-                    <NavbarContainer/>
-                    <MarketContentContainer/>
-                </div>
-            );
+            return (<MarketContentContainer/>);
+
         case 'System Setting':
-            return (
-                <div style={MainStyle}>
-                    <LeftMenuContainer/>
-                    <NavbarContainer/>
-                    <SystemContentContainer/>
-                </div>
-            );
+            return (<SystemContentContainer/>);
+
         default:
-            return (
-                <div style={MainStyle}>
-                </div>
-            );
+            return (<div style={MainStyle}/>);
     }
 };
 
@@ -102,16 +63,20 @@ render((
             <Router history={history}>
                 <div style={{width: '100%', height: '100%'}}>
                     <Route component={PortalContainer}/>
-                    <Switch>
-                        <Route exact path="/" component={controlPage}/>
-                        <Route exact path="/Machine Management" component={controlPage}/>
-                        <Route exact path="/User Management" component={controlPage}/>
-                        <Route exact path="/Dealer Management" component={controlPage}/>
-                        <Route exact path="/Merchandise Management" component={controlPage}/>
-                        <Route exact path="/Advertising Management" component={controlPage}/>
-                        <Route exact path="/Market Analysis" component={controlPage}/>
-                        <Route exact path="/System Setting" component={controlPage}/>
-                    </Switch>
+                    <div style={MainStyle}>
+                        <LeftMenuContainer/>
+                        <NavbarContainer/>
+                        <Switch>
+                            <Route exact path="/" component={controlPage}/>
+                            <Route exact path="/Machine Management" component={controlPage}/>
+                            <Route exact path="/User Management" component={controlPage}/>
+                            <Route exact path="/Dealer Management" component={controlPage}/>
+                            <Route exact path="/Merchandise Management" component={controlPage}/>
+                            <Route exact path="/Advertising Management" component={controlPage}/>
+                            <Route exact path="/Market Analysis" component={controlPage}/>
+                            <Route exact path="/System Setting" component={controlPage}/>
+                        </Switch>
+                    </div>
                 </div>
             </Router>
         </HashRouter>

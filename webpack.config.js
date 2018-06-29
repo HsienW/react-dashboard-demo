@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
     entry: './app/App.jsx',
@@ -62,6 +63,7 @@ module.exports = {
         new ExtractTextPlugin({
             filename: 'app.bundle.css',
         }),
+        new UglifyJsPlugin(),
     ],
 
     devServer: {

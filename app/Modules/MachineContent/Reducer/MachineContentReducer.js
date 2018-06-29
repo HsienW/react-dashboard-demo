@@ -25,6 +25,7 @@ const MachineContentReducer = (state = {actionType: ''}, action) => {
         case DetailDialogActions.SHOW_DETAIL_DIALOG:
         case PortalActions.GO_TO_PAGE:
         case PortalActions.UPDATE_PORTAL:
+        case AddDialogActions.UPDATE_DIALOG:
             return {actionType: action.type};
 
         default:
