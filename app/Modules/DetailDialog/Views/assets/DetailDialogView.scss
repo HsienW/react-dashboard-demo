@@ -16,3 +16,7 @@
     border-color: $main-color !important;
   }
 }
+
+.ant-list-item-meta-title {
+  text-transform: capitalize !important;
+}

@@ -8,10 +8,6 @@ import * as PortalActions from '../../Portal/Actions/PortalActions';
 import './assets/MachineContentView.scss';
 
 export default class MachineContentView extends React.Component {
-    constructor() {
-        super();
-    }
-
     componentWillReceiveProps(nextProps) {
         switch (nextProps.actionType) {
             case PortalActions.UPDATE_PORTAL:

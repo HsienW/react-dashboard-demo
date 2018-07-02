@@ -38,7 +38,7 @@ export default class MachineContentModel extends React.Component {
             isDeleteItemId: 0,
             defaultSelect: '4',
             currentMenuPage: 'Machine List3',
-            advancedDefaultValue: '',
+            defaultSearchValue: '',
             columns: [
                 {
                     title: 'Device ID',
@@ -174,8 +174,6 @@ export default class MachineContentModel extends React.Component {
 
     componentWillMount() {
         this.props.MachineContentActionsCreator.getMachineData('MachineContent');
-        WebStorage.setSessionStorage(WebStorageKeys.SEARCH_KEY, '');
-        WebStorage.setSessionStorage(WebStorageKeys.SEARCH_STATUS, '');
     }
 
     componentWillReceiveProps(nextProps) {
@@ -234,32 +232,32 @@ export default class MachineContentModel extends React.Component {
     };
 
     generalSearch = (value) => {
-        WebStorage.setSessionStorage(WebStorageKeys.SEARCH_KEY, value);
-        WebStorage.setSessionStorage(WebStorageKeys.SEARCH_STATUS, '');
-        const searchState = WebStorage.getSessionStorage(WebStorageKeys.SEARCH_STATUS);
-        const searchData = this.doFilterKey(value, searchState, MachineContentRespond.machineDataItems);
+        const searchData = this.doFilterKey(
+            value,
+            parseInt(this.state.defaultSelect),
+            MachineContentRespond.machineDataItems
+        );
         this.setState({machineDataItems: searchData});
     };
 
     advancedSearch = () => {
         const searchKey = document.querySelector('.advanced-search-input').value;
-        const searchState = parseInt(WebStorage.getSessionStorage(WebStorageKeys.SEARCH_STATUS));
-
-        const keyFilterDone = this.doFilterKey(searchKey, searchState, MachineContentRespond.machineDataItems);
-        const searchDone = this.doFilterStatus(searchState, keyFilterDone);
+        const keyFilterDone = this.doFilterKey(
+            searchKey,
+            parseInt(this.state.defaultSelect),
+            MachineContentRespond.machineDataItems
+        );
+        const searchDone = this.doFilterStatus(parseInt(this.state.defaultSelect), keyFilterDone);
 
         this.setState({machineDataItems: searchDone});
     };
 
     doFilterKey = (value, searchState, data) => {
-        WebStorage.setSessionStorage(WebStorageKeys.SEARCH_KEY, value);
         const searchKey = value.toUpperCase();
         if (is.empty(searchKey) && is.equal(searchState, 4)
             || is.empty(searchKey) && is.nan(searchState)
             || is.empty(searchKey) && is.empty(searchState)
         ) {
-            WebStorage.setSessionStorage(WebStorageKeys.SEARCH_KEY, '');
-            WebStorage.setSessionStorage(WebStorageKeys.SEARCH_STATUS, '');
             this.setSearchStatus(searchState);
             return data;
         }
@@ -298,7 +296,6 @@ export default class MachineContentModel extends React.Component {
                 this.setState({defaultSelect:  '4'});
                 break;
         }
-        WebStorage.setSessionStorage(WebStorageKeys.SEARCH_STATUS, value);
     };
 
     itemEditClick = (target, editType) => {
@@ -384,26 +381,19 @@ export default class MachineContentModel extends React.Component {
     };
 
     showAdvancedSearch = () => {
-        const searchKey = WebStorage.getSessionStorage(WebStorageKeys.SEARCH_KEY);
-        this.setState({
-            advancedDefaultValue: searchKey,
-            showAdvancedSearch: true,
-        });
+        this.setState({showAdvancedSearch: true});
     };
 
     hideAdvancedSearch = () => {
-        let searchInput = document.querySelector('.content-search-input input');
-        searchInput.value = WebStorage.getSessionStorage(WebStorageKeys.SEARCH_KEY);
-
         this.setState({
-            advancedDefaultValue: '',
+            defaultSearchValue: '',
             showAdvancedSearch: false
         });
     };
 
     searchKeyChange = (event) => {
         const searchKey = event.target.value;
-        this.setState({advancedDefaultValue: searchKey});
+        this.setState({defaultSearchValue: searchKey});
     };
 
     onChangePage = (showData) => {
@@ -422,6 +412,7 @@ export default class MachineContentModel extends React.Component {
                                 placeholder="keyword"
                                 enterButton="Search"
                                 size="large"
+                                value={this.state.defaultSearchValue}
                                 onChange={this.searchKeyChange}
                                 onSearch={value => this.generalSearch(value)}
                             />
@@ -438,7 +429,7 @@ export default class MachineContentModel extends React.Component {
                                                 placeholder="keyword"
                                                 className="advanced-search-input"
                                                 onChange={this.searchKeyChange}
-                                                value={this.state.advancedDefaultValue}
+                                                value={this.state.defaultSearchValue}
                                             />
                                             <div className="search-type-select">
                                                 <span>Packaging Type</span>

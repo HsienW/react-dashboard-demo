@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Form, Button, Select, Input} from 'antd';
+import MachineContentRespond from '../../../ApiCenter/MachineRespond/MachineContentRespond';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
 const addFieldData = [
-    {fieldName: 'Device ID', key: 'id'},
     {fieldName: 'Model', key: 'model'},
     {fieldName: 'Temp', key: 'temperature',},
     {fieldName: 'Region', key: 'region',},
@@ -13,15 +13,14 @@ const addFieldData = [
 ];
 
 class AddForm extends React.Component {
-
     handleSubmit = () => {
         const form = this.props.form;
-
         form.validateFields((err, values) => {
             if (err) {
                 values = this.resetValues(values);
                 return;
             }
+
             let requestJson = {
                 address: values.address,
                 id: parseInt(values.id),
@@ -34,6 +33,15 @@ class AddForm extends React.Component {
             values = this.resetValues(values);
             this.resetForm();
         });
+    };
+
+    checkId = (rule, value, callback) => {
+        if(MachineContentRespond.machineDataItems.some(item => item.id === parseInt(value))) {
+            rule.message = 'This ID already exists';
+            callback('Error');
+            return;
+        }
+        callback();
     };
 
     resetValues = (values) => {
@@ -52,6 +60,23 @@ class AddForm extends React.Component {
         const {getFieldDecorator} = this.props.form;
         return (
             <Form onSubmit={this.handleSubmit}>
+                <FormItem
+                    key={'id'}
+                    label={'Device ID'}
+                    labelCol={{span: 5}}
+                    wrapperCol={{span: 17}}
+                >
+                    {getFieldDecorator('id', {
+                        rules: [{
+                            required: true,
+                            message: 'Please input data',
+                            whitespace: true,
+                            validator: this.checkId,
+                        }],
+                    })(
+                        <Input/>
+                    )}
+                </FormItem>
                 {
                     addFieldData.map((formItem) => {
                         return (
@@ -62,7 +87,11 @@ class AddForm extends React.Component {
                                 wrapperCol={{span: 17}}
                             >
                                 {getFieldDecorator(formItem.key, {
-                                    rules: [{required: true, message: 'Please input data', whitespace: true}],
+                                    rules: [{
+                                        required: true,
+                                        message: 'Please input data',
+                                        whitespace: true,
+                                    }],
                                 })(
                                     <Input/>
                                 )}

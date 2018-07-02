@@ -1,10 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import is from 'is_js';
 import {Icon} from 'antd';
 import LeftMenuRespond from '../../../ApiCenter/MachineRespond/LeftMenuRespond';
-import WebStorage from '../../../WebStorage/WebStorage';
-import * as WebStorageKeys from '../../../WebStorage/WebStorageKeys';
 import * as LeftMenuActions from '../Actions/LeftMenuActions';
 import './assets/LeftMenuView.scss';
 
@@ -13,6 +10,8 @@ export default class LeftMenuView extends React.Component {
         super();
         this.state = {
             menuItems: [],
+            isSubMenuClick: 'Machine Management',
+            isSubItemClick: 'Machine List3'
         };
     }
 
@@ -31,78 +30,20 @@ export default class LeftMenuView extends React.Component {
         }
     }
 
-    componentDidUpdate() {
-        this.defaultOpenMenu();
-
-        const menuTitle = document.querySelector('.left-menu-title');
-        menuTitle.addEventListener('click', (event) => {
-            event.preventDefault();
-            let currentMenu = event.target.textContent;
-            if (is.empty(currentMenu)) {
-                currentMenu = event.target.nextSibling.textContent;
-            }
-            const subMenuTitle = menuTitle.querySelectorAll('.left-submenu-title');
-
-            subMenuTitle.forEach((obj) => {
-                if (is.equal(currentMenu, obj.childNodes[0].textContent)) {
-                    this.props.PortalActionsCreator.goToPage(
-                        {
-                            menuType: obj.childNodes[0].textContent,
-                            subMenu: ''
-                        }
-                    );
-                    this.handleClick(obj);
-                    return;
-                }
-
-                if (is.include(obj.textContent, currentMenu)) {
-                    this.props.PortalActionsCreator.goToPage(
-                        {
-                            menuType: obj.childNodes[0].textContent,
-                            subMenu: currentMenu
-                        }
-                    );
-                    this.handleClick(obj);
-                    return;
-                }
-                obj.removeAttribute('id');
-                Array.from(obj.childNodes[1].childNodes).forEach((subObj) => {
-                    subObj.removeAttribute('id');
-                    subObj.removeAttribute('name');
-                });
-            });
-        });
-    }
-
-    defaultOpenMenu = () => {
-        const menuTitle = document.querySelector('.left-menu-title');
-        const subMenuTitle = menuTitle.querySelectorAll('.left-submenu-title');
-        const initialMenu = WebStorage.getSessionStorage(WebStorageKeys.SELECT_MENU_TYPE);
-
-        subMenuTitle.forEach((obj) => {
-            const currentItem = WebStorage.getSessionStorage(WebStorageKeys.CURRENT_SUB_MENU);
-            if (is.equal(initialMenu, obj.childNodes[0].textContent)) {
-                obj.setAttribute('id', 'enter');
-                Array.from(obj.childNodes[1].childNodes).forEach((subObj) => {
-                    subObj.setAttribute('id', 'sub-enter');
-                    if(is.equal(subObj.textContent, currentItem)) {
-                        subObj.setAttribute('name', 'current-sub-enter');
-                    }
-                });
-            }
-        });
+    submenuClick = (key) => {
+        this.setState({isSubMenuClick: key});
+        this.props.PortalActionsCreator.goToPage({menuType: key, subMenu: ''});
     };
 
-    handleClick = (obj) => {
-        const currentItem = WebStorage.getSessionStorage(WebStorageKeys.CURRENT_SUB_MENU);
-        obj.setAttribute('id', 'enter');
-        Array.from(obj.childNodes[1].childNodes).forEach((subObj) => {
-            subObj.setAttribute('id', 'sub-enter');
-            if(is.equal(subObj.textContent, currentItem)) {
-                subObj.setAttribute('name', 'current-sub-enter');
-                return;
-            }
-            subObj.removeAttribute('name');
+    submenuItemClick = (event) => {
+        event.stopPropagation();
+        this.setState({
+            isSubMenuClick: event.target.parentNode.parentNode.childNodes[0].textContent,
+            isSubItemClick: event.target.textContent
+        });
+        this.props.PortalActionsCreator.goToPage({
+            menuType: this.state.isSubMenuClick,
+            subMenu: event.target.textContent
         });
     };
 
@@ -117,8 +58,13 @@ export default class LeftMenuView extends React.Component {
                         this.state.menuItems.map((menuItem) => {
                             return (
                                 <li
-                                    className="left-submenu-title"
+                                    id={this.state.isSubMenuClick === menuItem.name
+                                        ? 'item-click'
+                                        : null
+                                    }
+                                    className={'left-submenu-title item-hover'}
                                     key={menuItem.name}
+                                    onClick={this.submenuClick.bind(this, menuItem.name)}
                                 >
                                     <div>
                                         <Icon
@@ -134,10 +80,16 @@ export default class LeftMenuView extends React.Component {
                                                 return (
                                                     <li
                                                         key={subItem.id}
-                                                        itemID={subItem.type}
+                                                        itemID={subItem.id}
+                                                        onClick={this.submenuItemClick}
+                                                        ref={(ip) => this.test = ip}
                                                     >
                                                         {subItem.title}
-                                                        <div />
+                                                        <div className={
+                                                            this.state.isSubItemClick === subItem.title
+                                                                ? 'subitem-click'
+                                                                : null
+                                                        }/>
                                                     </li>
                                                 );
                                             })

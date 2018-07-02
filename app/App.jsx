@@ -5,8 +5,6 @@ import ReduxStore from './ReduxStore';
 import PortalContainer from './Modules/Portal/Containers/PortalContainer';
 import {HashRouter, Router, Switch, Route} from 'react-router-dom';
 import createHistory from 'history/createHashHistory';
-import WebStorage from './WebStorage/WebStorage';
-import * as WebStorageKeys from './WebStorage/WebStorageKeys';
 import LeftMenuContainer from './Modules/LeftMenu/Containers/LeftMenuContainer';
 import NavbarContainer from './Modules/Navbar/Containers/NavbarContainer';
 import MachineContentContainer from './Modules/MachineContent/Containers/MachineContentContainer';
@@ -28,35 +26,6 @@ const MainStyle = {
     flexDirection: 'column'
 };
 
-const controlPage = () => {
-    const menuType = WebStorage.getSessionStorage(WebStorageKeys.SELECT_MENU_TYPE);
-    switch (menuType) {
-        case 'Machine Management':
-            return (<MachineContentContainer/>);
-
-        case 'User Management':
-            return (<UserContentContainer/>);
-
-        case 'Dealer Management':
-            return (<DealerContentContainer/>);
-
-        case 'Merchandise Management':
-            return (<MerchandiseContentContainer/>);
-
-        case 'Advertising Management':
-            return (<AdvertisingContentContainer/>);
-
-        case 'Market Analysis':
-            return (<MarketContentContainer/>);
-
-        case 'System Setting':
-            return (<SystemContentContainer/>);
-
-        default:
-            return (<div style={MainStyle}/>);
-    }
-};
-
 render((
     <Provider store={ReduxStore}>
         <HashRouter>
@@ -67,14 +36,13 @@ render((
                         <LeftMenuContainer/>
                         <NavbarContainer/>
                         <Switch>
-                            <Route exact path="/" component={controlPage}/>
-                            <Route exact path="/Machine Management" component={controlPage}/>
-                            <Route exact path="/User Management" component={controlPage}/>
-                            <Route exact path="/Dealer Management" component={controlPage}/>
-                            <Route exact path="/Merchandise Management" component={controlPage}/>
-                            <Route exact path="/Advertising Management" component={controlPage}/>
-                            <Route exact path="/Market Analysis" component={controlPage}/>
-                            <Route exact path="/System Setting" component={controlPage}/>
+                            <Route path="/Machine Management" component={MachineContentContainer}/>
+                            <Route path="/User Management" component={UserContentContainer}/>
+                            <Route path="/Dealer Management" component={DealerContentContainer}/>
+                            <Route path="/Merchandise Management" component={MerchandiseContentContainer}/>
+                            <Route path="/Advertising Management" component={AdvertisingContentContainer}/>
+                            <Route path="/Market Analysis" component={MarketContentContainer}/>
+                            <Route path="/System Setting" component={SystemContentContainer}/>
                         </Switch>
                     </div>
                 </div>

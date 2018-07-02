@@ -48,13 +48,6 @@ ul {
       height: 0;
     }
   }
-  &:hover {
-    background-color: $general-color;
-    .left-submenu-items {
-      transition: height 0.4s ease;
-      height: 201px;
-    }
-  }
 }
 
 .left-submenu-items {
@@ -76,21 +69,27 @@ ul {
   }
 }
 
-#enter {
+#item-click {
   background-color: $minor-color;
   .left-submenu-items {
     height: 201px;
+    li {
+      background-color: $secondary-color;
+    }
   }
 }
 
-#sub-enter {
-  background-color: $secondary-color;
-  .left-submenu-items {
-    height: 201px;
+.item-hover {
+  &:hover {
+    background-color: $general-color;
+    .left-submenu-items {
+      transition: height 0.4s ease;
+      height: 201px;
+    }
   }
 }
 
-[name$='current-sub-enter'] > div {
+.subitem-click {
   width: 0;
   height: 0;
   border-style: solid;

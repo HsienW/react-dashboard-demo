@@ -55,45 +55,26 @@ export default class DetailDialogView extends React.Component {
             }
             return item.id === target;
         });
+
+        const outputTarget = Object.entries(detailTarget).map(([key, value]) => ({key,value}));
+
         return (
-            <List
-                itemLayout="horizontal"
-                dataSource={[detailTarget]}
-                renderItem={item => (
-                    <div>
-                        <List.Item>
-                            <List.Item.Meta
-                                title={`Device ID:  ${item.id}`}
-                            />
-                        </List.Item>
-                        <List.Item>
-                            <List.Item.Meta
-                                title={`Model: ${item.model}`}
-                            />
-                        </List.Item>
-                        <List.Item>
-                            <List.Item.Meta
-                                title={`Status: ${item.state}`}
-                            />
-                        </List.Item>
-                        <List.Item>
-                            <List.Item.Meta
-                                title={`Machine Temp: ${item.temperature}`}
-                            />
-                        </List.Item>
-                        <List.Item>
-                            <List.Item.Meta
-                                title={`Region: ${item.region}`}
-                            />
-                        </List.Item>
-                        <List.Item>
-                            <List.Item.Meta
-                                title={`Address: ${item.address}`}
-                            />
-                        </List.Item>
-                    </div>
-                )}
-            />
+            <List itemLayout="horizontal">
+                {
+                    outputTarget.map((item) => {
+                        if(item.key === 'status') {
+                            return;
+                        }
+                        return (
+                            <List.Item key={item.key}>
+                                <List.Item.Meta
+                                    title={`${item.key}: ${item.value}`}
+                                />
+                            </List.Item>
+                        );
+                    })
+                }
+            </List>
         );
     }
 
@@ -107,7 +88,7 @@ export default class DetailDialogView extends React.Component {
                     onCancel={this.handleCancel}
                     className="detail-dialog"
                 >
-                    {this.handleDetailInfo(this.props.detailItemId)}
+                    {this.state.showDialog ? this.handleDetailInfo(this.props.detailItemId) : null}
                 </Modal>
             </div>
         );
