@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Modal} from 'antd';
+import Modal from 'antd/lib/modal';
 import * as DeleteDialogActions from '../Actions/DeleteDialogActions';
 import './assets/DeleteDialogView.scss';
 

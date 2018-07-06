@@ -6,10 +6,6 @@ import WebStorage from '../../../WebStorage/WebStorage';
 import MarketContentShow from './MarketContentShow';
 
 export default class MarketContentView extends React.Component {
-    constructor() {
-        super();
-    }
-
     componentWillReceiveProps(nextProps) {
         switch (nextProps.actionType) {
             case PortalActions.UPDATE_PORTAL:

@@ -4,17 +4,22 @@ import {Provider} from 'react-redux';
 import ReduxStore from './ReduxStore';
 import PortalContainer from './Modules/Portal/Containers/PortalContainer';
 import {HashRouter, Router, Switch, Route} from 'react-router-dom';
+import {Machine, User, Dealer, Merchandise, Advertising, Market, System} from './Loading';
 import createHistory from 'history/createHashHistory';
 import LeftMenuContainer from './Modules/LeftMenu/Containers/LeftMenuContainer';
 import NavbarContainer from './Modules/Navbar/Containers/NavbarContainer';
-import MachineContentContainer from './Modules/MachineContent/Containers/MachineContentContainer';
-import UserContentContainer from './Modules/UserContent/Containers/UserContentContainer';
-import DealerContentContainer from './Modules/DealerContent/Containers/DealerContentContainer';
-import MerchandiseContentContainer from './Modules/MerchandiseContent/Containers/MerchandiseContentContainer';
-import AdvertisingContentContainer from './Modules/AdvertisingContent/Containers/AdvertisingContentContainer';
-import MarketContentContainer from './Modules/MarketContent/Containers/MarketContentContainer';
-import SystemContentContainer from './Modules/SystemContent/Containers/SystemContentContainer';
-import 'antd/dist/antd.css';
+import 'antd/lib/button/style/css';
+import 'antd/lib/modal/style/css';
+import 'antd/lib/form/style/css';
+import 'antd/lib/select/style/css';
+import 'antd/lib/input/style/css';
+import 'antd/lib/list/style/css';
+import 'antd/lib/icon/style/css';
+import 'antd/lib/popover/style/css';
+import 'antd/lib/table/style/css';
+import 'antd/lib/tag/style/css';
+import 'antd/lib/breadcrumb/style/css';
+import 'antd/lib/avatar/style/css';
 
 const history = createHistory();
 
@@ -36,13 +41,13 @@ render((
                         <LeftMenuContainer/>
                         <NavbarContainer/>
                         <Switch>
-                            <Route path="/Machine Management" component={MachineContentContainer}/>
-                            <Route path="/User Management" component={UserContentContainer}/>
-                            <Route path="/Dealer Management" component={DealerContentContainer}/>
-                            <Route path="/Merchandise Management" component={MerchandiseContentContainer}/>
-                            <Route path="/Advertising Management" component={AdvertisingContentContainer}/>
-                            <Route path="/Market Analysis" component={MarketContentContainer}/>
-                            <Route path="/System Setting" component={SystemContentContainer}/>
+                            <Route path="/Machine Management" component={Machine}/>
+                            <Route path="/User Management" component={User}/>
+                            <Route path="/Dealer Management" component={Dealer}/>
+                            <Route path="/Merchandise Management" component={Merchandise}/>
+                            <Route path="/Advertising Management" component={Advertising}/>
+                            <Route path="/Market Analysis" component={Market}/>
+                            <Route path="/System Setting" component={System}/>
                         </Switch>
                     </div>
                 </div>

@@ -6,10 +6,6 @@ import WebStorage from '../../../WebStorage/WebStorage';
 import DealerContentShow from './DealerContentShow';
 
 export default class DealerContentView extends React.Component {
-    constructor() {
-        super();
-    }
-
     componentWillReceiveProps(nextProps) {
         switch (nextProps.actionType) {
             case PortalActions.UPDATE_PORTAL:

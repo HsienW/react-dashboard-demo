@@ -1,7 +1,13 @@
 import React from 'react';
 import is from 'is_js';
 import PropTypes from 'prop-types';
-import {Input, Button, Popover, Table, Icon, Tag, Select} from 'antd';
+import Input from 'antd/lib/input';
+import Button from 'antd/lib/button';
+import Popover from 'antd/lib/popover';
+import Table from 'antd/lib/table';
+import Icon from 'antd/lib/icon';
+import Tag from 'antd/lib/tag';
+import Select from 'antd/lib/select';
 import AddDialogContainer from '../../AddDialog/Containers/AddDialogContainer';
 import DetailDialogContainer from '../../DetailDialog/Containers/DetailDialogContainer';
 import PaginationContainer from '../../Pagination/Containers/PaginationContainer';

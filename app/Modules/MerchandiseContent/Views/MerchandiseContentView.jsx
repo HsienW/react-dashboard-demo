@@ -6,10 +6,6 @@ import WebStorage from '../../../WebStorage/WebStorage';
 import MerchandiseContentShow from './MerchandiseContentShow';
 
 export default class MerchandiseContentView extends React.Component {
-    constructor() {
-        super();
-    }
-
     componentWillReceiveProps(nextProps) {
         switch (nextProps.actionType) {
             case PortalActions.UPDATE_PORTAL:

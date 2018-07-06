@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Avatar, Breadcrumb} from 'antd';
+import Avatar from 'antd/lib/avatar';
+import Breadcrumb from 'antd/lib/breadcrumb';
 import WebStorage from '../../../WebStorage/WebStorage';
 import * as WebStorageKeys from '../../../WebStorage/WebStorageKeys';
 import * as PortalActions from '../../Portal/Actions/PortalActions';

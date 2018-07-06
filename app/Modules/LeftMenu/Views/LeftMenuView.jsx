@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Icon} from 'antd';
+import Icon from 'antd/lib/icon';
 import LeftMenuRespond from '../../../ApiCenter/MachineRespond/LeftMenuRespond';
 import * as LeftMenuActions from '../Actions/LeftMenuActions';
 import './assets/LeftMenuView.scss';
@@ -31,7 +31,10 @@ export default class LeftMenuView extends React.Component {
     }
 
     submenuClick = (key) => {
-        this.setState({isSubMenuClick: key});
+        this.setState({
+            isSubMenuClick: key,
+            isSubItemClick: ''
+        });
         this.props.PortalActionsCreator.goToPage({menuType: key, subMenu: ''});
     };
 
@@ -42,7 +45,7 @@ export default class LeftMenuView extends React.Component {
             isSubItemClick: event.target.textContent
         });
         this.props.PortalActionsCreator.goToPage({
-            menuType: this.state.isSubMenuClick,
+            menuType: event.target.parentNode.parentNode.childNodes[0].textContent,
             subMenu: event.target.textContent
         });
     };
@@ -82,7 +85,6 @@ export default class LeftMenuView extends React.Component {
                                                         key={subItem.id}
                                                         itemID={subItem.id}
                                                         onClick={this.submenuItemClick}
-                                                        ref={(ip) => this.test = ip}
                                                     >
                                                         {subItem.title}
                                                         <div className={

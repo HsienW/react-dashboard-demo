@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import AddForm from './AddForm';
-import {Modal} from 'antd';
+import Modal from 'antd/lib/modal';
 import * as AddDialogActions from '../Actions/AddDialogActions';
 import './assets/AddDialogView.scss';
 

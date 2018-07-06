@@ -1,8 +1,8 @@
 import React from 'react';
-import WebStorage from '../../../WebStorage/WebStorage';
-import * as WebStorageKeys from '../../../WebStorage/WebStorageKeys';
 import PropTypes from 'prop-types';
 import paginate from 'jw-paginate';
+import WebStorage from '../../../WebStorage/WebStorage';
+import * as WebStorageKeys from '../../../WebStorage/WebStorageKeys';
 import * as DeleteDialogActions from '../../DeleteDialog/Actions/DeleteDialogActions';
 import * as AddDialogActions from '../../AddDialog/Actions/AddDialogActions';
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Modal, List} from 'antd';
+import Modal from 'antd/lib/modal';
+import List from 'antd/lib/list';
 import * as DetailDialogActions from '../Actions/DetailDialogActions';
 import MachineContentRespond from '../../../ApiCenter/MachineRespond/MachineContentRespond';
 import './assets/DetailDialogView.scss';
@@ -9,32 +10,30 @@ export default class DetailDialogView extends React.Component {
     constructor() {
         super();
         this.state = {
-            showDialog: false
+            showDialog: false,
         };
     }
 
     componentWillReceiveProps(nextProps) {
         switch (nextProps.actionType) {
             case DetailDialogActions.SHOW_DETAIL_DIALOG:
-            case DetailDialogActions.HIDE_DETAIL_DIALOG:
                 this.showDialog();
                 break;
 
+            case DetailDialogActions.HIDE_DETAIL_DIALOG:
+                this.hideDialog();
+                break;
             default:
                 break;
         }
     }
 
     showDialog = () => {
-        this.setState({showDialog: !this.state.showDialog});
+        this.setState({showDialog: true});
         this.props.DetailDialogActionsCreator.updateDialog();
     };
 
-    handleOk = () => {
-        this.setState({showDialog: false});
-    };
-
-    handleCancel = () => {
+    hideDialog = () => {
         this.setState({showDialog: false});
     };
 
@@ -84,8 +83,8 @@ export default class DetailDialogView extends React.Component {
                 <Modal
                     title="Detail"
                     visible={this.state.showDialog}
-                    onOk={this.handleOk}
-                    onCancel={this.handleCancel}
+                    onOk={this.hideDialog}
+                    onCancel={this.hideDialog}
                     className="detail-dialog"
                 >
                     {this.state.showDialog ? this.handleDetailInfo(this.props.detailItemId) : null}

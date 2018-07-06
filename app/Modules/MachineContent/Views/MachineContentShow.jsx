@@ -2,10 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export default class MachineContentShow extends React.Component {
-    constructor() {
-        super();
-    }
-
     render() {
         return (
             <div className="show-content-text">

@@ -125,3 +125,11 @@ input:-webkit-autofill {
 .has-error .ant-select-arrow {
   color: #d9d9d9 !important;
 }
+
+.ant-modal {
+  z-index: 2000 !important;
+}
+
+.ant-popover {
+  z-index: 1000 !important;
+}
