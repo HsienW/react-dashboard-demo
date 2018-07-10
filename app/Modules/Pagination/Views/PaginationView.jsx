@@ -1,6 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import paginate from 'jw-paginate';
+import WebStorage from '../../../WebStorage/WebStorage';
+import * as WebStorageKeys from '../../../WebStorage/WebStorageKeys';
+import * as DeleteDialogActions from '../../DeleteDialog/Actions/DeleteDialogActions';
+import * as AddDialogActions from '../../AddDialog/Actions/AddDialogActions';
 
 const propTypes = {
     items: PropTypes.array.isRequired,
@@ -9,7 +13,8 @@ const propTypes = {
     pageSize: PropTypes.number,
     labels: PropTypes.object,
     styles: PropTypes.object,
-    disableDefaultStyles: PropTypes.bool
+    disableDefaultStyles: PropTypes.bool,
+    actionType: PropTypes.string.isRequired,
 };
 
 const defaultProps = {
@@ -26,7 +31,7 @@ const defaultProps = {
 class JwPagination extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { pager: {} };
+        this.state = {pager: {}};
         this.styles = {};
 
         if (!props.disableDefaultStyles) {
@@ -52,10 +57,28 @@ class JwPagination extends React.Component {
 
         if (props.styles) {
             this.styles = {
-                ul: { ...this.styles.ul, ...props.styles.ul },
-                li: { ...this.styles.li, ...props.styles.li },
-                a: { ...this.styles.a, ...props.styles.a }
+                ul: {...this.styles.ul, ...props.styles.ul},
+                li: {...this.styles.li, ...props.styles.li},
+                a: {...this.styles.a, ...props.styles.a}
             };
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        switch (nextProps.actionType) {
+            case DeleteDialogActions.DELETE_ITEM_SUCCESS:
+                this.setPage(parseInt(WebStorage.getSessionStorage(WebStorageKeys.CURRENT_PAGE)));
+                break;
+
+            case AddDialogActions.ADD_ITEM_SUCCESS:
+                this.addPage(parseInt(WebStorage.getSessionStorage(WebStorageKeys.CURRENT_PAGE)));
+                break;
+
+            case AddDialogActions.UPDATE_DIALOG:
+                break;
+
+            default:
+                break;
         }
     }
 
@@ -70,11 +93,25 @@ class JwPagination extends React.Component {
     }
 
     setPage(page) {
-        const { items, pageSize } = this.props;
+        const {items, pageSize} = this.props;
         let pager = this.state.pager;
         pager = paginate(items.length, page, pageSize);
         const pageOfItems = items.slice(pager.startIndex, pager.endIndex + 1);
-        this.setState({ pager: pager });
+        WebStorage.setSessionStorage(WebStorageKeys.CURRENT_PAGE, page);
+        WebStorage.setSessionStorage(WebStorageKeys.PAGE_START_INDEX, pager.startIndex);
+        WebStorage.setSessionStorage(WebStorageKeys.PAGE_END_INDEX, pager.endIndex + 1);
+
+        this.setState({pager: pager});
+        this.props.onChangePage(pageOfItems);
+    }
+
+    addPage(page) {
+        const {items, pageSize} = this.props;
+        let pager = this.state.pager;
+        pager = paginate(items.length, page, pageSize);
+        const pageOfItems = items.slice(pager.startIndex, pager.endIndex + 1);
+
+        this.setState({pager: pager});
         this.props.onChangePage(pageOfItems);
     }
 
@@ -84,7 +121,7 @@ class JwPagination extends React.Component {
         const styles = this.styles;
 
         return (
-            <ul className="pagination" style={styles.ul}>
+            <ul className='pagination' style={styles.ul}>
                 <li className={`first ${pager.currentPage === 1 ? 'disabled' : ''}`} style={styles.li}>
                     <a onClick={() => this.setPage(1)} style={styles.a}>{labels.first}</a>
                 </li>
@@ -92,7 +129,8 @@ class JwPagination extends React.Component {
                     <a onClick={() => this.setPage(pager.currentPage - 1)} style={styles.a}>{labels.previous}</a>
                 </li>
                 {pager.pages.map((page, index) =>
-                    <li key={index} className={`page-number ${pager.currentPage === page ? 'active' : ''}`} style={styles.li}>
+                    <li key={index} className={`page-number ${pager.currentPage === page ? 'active' : ''}`}
+                        style={styles.li}>
                         <a onClick={() => this.setPage(page)} style={styles.a}>{page}</a>
                     </li>
                 )}

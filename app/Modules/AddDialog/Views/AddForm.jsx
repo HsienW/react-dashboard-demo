@@ -1,12 +1,15 @@
 import React from 'react';
-import is from 'is_js';
 import PropTypes from 'prop-types';
-import {Form, Button, Select, Input} from 'antd';
+import is from 'is_js';
+import Form from 'antd/lib/form';
+import Button from 'antd/lib/button';
+import Select from 'antd/lib/select';
+import Input from 'antd/lib/input';
+import MachineContentRespond from '../../../ApiCenter/MachineRespond/MachineContentRespond';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
 const addFieldData = [
-    {fieldName: 'Device ID', key: 'id'},
     {fieldName: 'Model', key: 'model'},
     {fieldName: 'Temp', key: 'temperature',},
     {fieldName: 'Region', key: 'region',},
@@ -14,31 +17,65 @@ const addFieldData = [
 ];
 
 class AddForm extends React.Component {
-    handleSubmit = () => {
-        this.props.form.validateFields((err, values) => {
-            const form = this.props.form;
-            if (is.not.existy(values.address)
-                || is.not.existy(values.id)
-                || is.not.existy(values.model)
-                || is.not.existy(values.region)
-                || is.not.existy(values.status)
-                || is.not.existy(values.temperature)
+    constructor() {
+        super();
+        this.state = {
+            isPassDate: false,
+        };
+    }
 
-            ) {
+    handleSubmit = () => {
+        const form = this.props.form;
+        form.validateFields((err, values) => {
+            if (err) {
+                values = this.resetValues(values);
                 return;
             }
 
-            const requestJson = {
+            if (!this.state.isPassDate) {
+                return;
+            }
+
+            let requestJson = {
                 address: values.address,
-                id: values.id,
+                id: parseInt(values.id),
                 model: values.model,
                 region: values.region,
                 status: parseInt(values.status),
                 temperature: values.temperature
             };
             this.props.AddDialogActionsCreator.doAddMachineItem(requestJson);
-            form.resetFields();
+            values = this.resetValues(values);
+            this.resetForm();
+            this.setState({isPassDate: false});
         });
+    };
+
+    checkId = (rule, value, callback) => {
+        if(is.empty(value) || is.not.existy(value)) {
+            rule.message = 'Please input data';
+            callback('Error');
+            return;
+        }
+        if(isNaN(value)) {
+            rule.message = 'Please input number';
+            callback('Error');
+            return;
+        }
+        if(MachineContentRespond.machineDataItems.some(item => item.id === parseInt(value))) {
+            rule.message = 'This ID already exists';
+            callback('Error');
+            return;
+        }
+        this.setState({isPassDate: true});
+        callback();
+    };
+
+    resetValues = (values) => {
+        Object.keys(values).forEach((key) => {
+            values[key] = undefined;
+        });
+        return values;
     };
 
     resetForm = () => {
@@ -49,7 +86,24 @@ class AddForm extends React.Component {
     render() {
         const {getFieldDecorator} = this.props.form;
         return (
-            <Form onSubmit={this.handleSubmit}>
+            <Form>
+                <FormItem
+                    key={'id'}
+                    label={'Device ID'}
+                    labelCol={{span: 5}}
+                    wrapperCol={{span: 17}}
+                >
+                    {getFieldDecorator('id', {
+                        rules: [{
+                            required: true,
+                            message: 'Please input data',
+                            whitespace: true,
+                            validator: this.checkId,
+                        }],
+                    })(
+                        <Input/>
+                    )}
+                </FormItem>
                 {
                     addFieldData.map((formItem) => {
                         return (
@@ -60,9 +114,13 @@ class AddForm extends React.Component {
                                 wrapperCol={{span: 17}}
                             >
                                 {getFieldDecorator(formItem.key, {
-                                    rules: [{required: true, message: 'Please input data', whitespace: true}],
+                                    rules: [{
+                                        required: true,
+                                        message: 'Please input data',
+                                        whitespace: true,
+                                    }],
                                 })(
-                                    <Input />
+                                    <Input/>
                                 )}
                             </FormItem>
                         );
@@ -89,7 +147,11 @@ class AddForm extends React.Component {
                 <FormItem
                     wrapperCol={{span: 12, offset: 10}}
                 >
-                    <Button type="primary" htmlType="submit">
+                    <Button
+                        type="primary"
+                        htmlType="submit"
+                        onClick={this.handleSubmit}
+                    >
                         Confirm
                     </Button>
                 </FormItem>

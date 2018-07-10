@@ -1,56 +1,49 @@
 const path = require('path');
-const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const StyleExtHtmlWebpackPlugin = require('style-ext-html-webpack-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
-    mode: 'production',
-    entry: './app/App.jsx',
+    entry: {
+        app: './app/App.jsx',
+        vendor: [
+            'babel-polyfill',
+            'is_js',
+            'react',
+            'react-dom',
+            'react-redux',
+            'react-router',
+            'react-router-redux',
+            'redux',
+            'redux-actions',
+            'redux-thunk',
+        ],
+    },
+
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: 'app.bundle.js',
+        filename: '[name].bundle.js',
     },
 
     module: {
         rules: [
             {
-                test: /\.(jsx|js)?$/,
-                include: [path.resolve('app')],
-                exclude: [path.resolve('node_modules')],
-                use: 'babel-loader'
+                test: /\.(js|jsx)$/,
+                exclude: /node_modules/,
+                loader: 'babel-loader',
             },
             {
-                test: /\.(jsx|js)?$/,
-                include: [path.resolve('app')],
-                exclude: [path.resolve('node_modules')],
-                use: 'eslint-loader'
-            },
-            {
-                test: /\.(css|sass)?$/,
-                use: ExtractTextPlugin.extract({
-                    use: ['css-loader', 'sass-loader']
-                })
-            },
-            {
-                test: /\.(png|jpg|gif|svg)$/,
-                include: [path.resolve('app')],
-                exclude: [path.resolve('node_modules')],
-                use: 'url-loader?limit=8192'
+                test: /\.(css|scss)$/,
+                use: [
+                    {loader: MiniCssExtractPlugin.loader},
+                    'css-loader',
+                    'sass-loader'
+                ],
             },
         ]
     },
-
-    resolve: {
-        extensions: ['.js', '.json', '.jsx', '.css']
-    },
-
     plugins: [
-        new CleanWebpackPlugin(['dist'], {
-            verbose: 'true',
-            dry: false
-        }),
         new HtmlWebpackPlugin({
             title: 'React-demo',
             template: './app/index.html',
@@ -62,21 +55,46 @@ module.exports = {
                 removeRedundantAttributes: true
             }
         }),
-        new ExtractTextPlugin({
+        new MiniCssExtractPlugin({
             filename: 'app.bundle.css',
         }),
-        new StyleExtHtmlWebpackPlugin({
-            minify: true
-        }),
-        new webpack.DefinePlugin({
-            'process.env': {
-                NODE_ENV: JSON.stringify('production')
-            },
-            PRODUCTION: JSON.stringify(false),
-            STAGING: JSON.stringify(false),
-            DEVELOPMENT: JSON.stringify(true),
-            VERSION_NAME: JSON.stringify('0.0.18301'),
-            VERSION_CODE: JSON.stringify('1'),
-        }),
+        new CompressionPlugin()
     ],
+    resolve: {
+        extensions: ['.js', '.jsx', '.css', 'scss']
+    },
+    devServer: {
+        port: 8080
+    },
+    optimization: {
+        minimizer: [
+            new UglifyJSPlugin({
+                cache: true,
+                parallel: true,
+                uglifyOptions: {
+                    compress: true,
+                    ecma: 8,
+                    warnings: false,
+                    mangle: true
+                },
+                sourceMap: false
+            })
+        ],
+        splitChunks: {
+            cacheGroups: {
+                commons: {
+                    chunks: 'all',
+                    minChunks: 2,
+                    minSize: 0
+                },
+                vendor: {
+                    chunks: 'all',
+                    name: 'vendor',
+                    test: 'vendor',
+                    enforce: true,
+                    minChunks: 3
+                },
+            }
+        },
+    },
 };

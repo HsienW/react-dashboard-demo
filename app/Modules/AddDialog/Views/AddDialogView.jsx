@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import AddForm from './AddForm';
-import {Modal} from 'antd';
+import Modal from 'antd/lib/modal';
 import * as AddDialogActions from '../Actions/AddDialogActions';
 import './assets/AddDialogView.scss';
 
@@ -22,6 +22,10 @@ export default class AddDialogView extends React.Component {
 
             case AddDialogActions.ADD_ITEM_SUCCESS:
                 this.hideDialog();
+                this.props.AddDialogActionsCreator.updateDialog();
+                break;
+
+            case AddDialogActions.UPDATE_DIALOG:
                 break;
 
             default:

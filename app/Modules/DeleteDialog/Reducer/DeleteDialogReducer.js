@@ -4,7 +4,7 @@ const DeleteDialogReducer = (state = {actionType: ''}, action) => {
     switch (action.type) {
         case DeleteDialogActions.SHOW_DELETE_DIALOG:
         case DeleteDialogActions.HIDE_DELETE_DIALOG:
-        case DeleteDialogActions.DELETE_ITEM:
+        case DeleteDialogActions.DELETE_ITEM_SUCCESS:
         case DeleteDialogActions.UPDATE_DIALOG:
             return {actionType: action.type};
 

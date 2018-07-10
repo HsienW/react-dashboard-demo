@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Modal} from 'antd';
+import Modal from 'antd/lib/modal';
 import * as DeleteDialogActions from '../Actions/DeleteDialogActions';
 import './assets/DeleteDialogView.scss';
 
@@ -18,7 +18,7 @@ export default class DeleteDialogView extends React.Component {
             case DeleteDialogActions.HIDE_DELETE_DIALOG:
                 this.showDialog();
                 break;
-            case DeleteDialogActions.DELETE_ITEM:
+            case DeleteDialogActions.DELETE_ITEM_SUCCESS:
                 this.props.DeleteDialogActionsCreator.updateDialog();
                 break;
 

@@ -6,10 +6,6 @@ import WebStorage from '../../../WebStorage/WebStorage';
 import SystemContentShow from './SystemContentShow';
 
 export default class SystemContentView extends React.Component {
-    constructor() {
-        super();
-    }
-
     componentWillReceiveProps(nextProps) {
         switch (nextProps.actionType) {
             case PortalActions.UPDATE_PORTAL:

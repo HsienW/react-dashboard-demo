@@ -1,17 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import WebStorage from '../../../WebStorage/WebStorage';
-import * as WebStorageKeys from '../../../WebStorage/WebStorageKeys';
 import MachineContentModel from './MachineContentModel';
 import MachineContentShow from './MachineContentShow';
+import WebStorage from '../../../WebStorage/WebStorage';
+import * as WebStorageKeys from '../../../WebStorage/WebStorageKeys';
 import * as PortalActions from '../../Portal/Actions/PortalActions';
 import './assets/MachineContentView.scss';
 
 export default class MachineContentView extends React.Component {
-    constructor() {
-        super();
-    }
-
     componentWillReceiveProps(nextProps) {
         switch (nextProps.actionType) {
             case PortalActions.UPDATE_PORTAL:

@@ -95,9 +95,11 @@
     justify-content: flex-end;
   }
   .search-type-select {
+    display: inline-flex;
+    justify-content: space-between;
     padding: 1rem 0;
     > span {
-      padding-right: 1.25rem;
+      padding: 0 1.25rem;
       font-size: 1.25rem;
     }
   }

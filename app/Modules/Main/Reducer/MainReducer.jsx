@@ -12,6 +12,7 @@ import MerchandiseContentReducer from '../../MerchandiseContent/Reducer/Merchand
 import AddDialogReducer from '../../AddDialog/Reducer/AddDialogReducer';
 import DeleteDialogReducer from '../../DeleteDialog/Reducer/DeleteDialogReducer';
 import DetailDialogReducer from '../../DetailDialog/Reducer/DetailDialogReducer';
+import PaginationReducer from '../../Pagination/Reducer/PaginationReducer';
 
 const MainReducer = combineReducers({
     PortalReducer,
@@ -26,7 +27,8 @@ const MainReducer = combineReducers({
     SystemContentReducer,
     MachineContentReducer,
     DeleteDialogReducer,
-    DetailDialogReducer
+    DetailDialogReducer,
+    PaginationReducer
 });
 
 export default MainReducer;
